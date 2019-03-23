@@ -11,12 +11,12 @@ from os import path
 from .printing import print_green
 
 
-def run(project, command_type, watch_mode):
+def run(project: str, command_type: str, watch_mode: bool):
     """Execute dotnet command
 
     Arguments:
         project {str} -- project name
-        command {str} -- [run, test, restore, build, clean]
+        command_type {str} -- [run, test, restore, build, clean]
         watch_mode {bool} -- watch code changes
     """
     command = shlex.split(f'dotnet {command_type} -p {project}')
@@ -26,7 +26,7 @@ def run(project, command_type, watch_mode):
     process.communicate(input=None)
 
 
-def start_service(working_directory, service_name, command, watch_mode):
+def start_service(working_directory: str, service_name: str, command: str, watch_mode: bool):
     """Start process container
 
     Arguments:

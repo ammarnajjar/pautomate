@@ -40,7 +40,7 @@ def shell_first(command: str) -> str:
     return subprocess.check_output(cmd).decode("utf-8").split('\n')[0]
 
 
-def hard_reset(repo_path) -> None:
+def hard_reset(repo_path: str) -> None:
     """reset --hard
 
     Arguments:
@@ -49,7 +49,7 @@ def hard_reset(repo_path) -> None:
     print_yellow(shell(f'git -C {repo_path} reset --hard'))
 
 
-def print_branches_info(repo_path) -> None:
+def print_branches_info(repo_path: str) -> None:
     """git branch -a
 
     Arguments:

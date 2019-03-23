@@ -4,12 +4,13 @@ Get branches informations of repositories in the current directory.
 """
 import glob
 from os import pardir, path
+from typing import List, Optional
 
 from automate.common.git import hard_reset, print_branches_info
 from automate.common.printing import print_green, print_red
 
 
-def get_branches(working_directory, reset_mode, args) -> None:
+def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:
     """Get branches info
 
     Arguments:

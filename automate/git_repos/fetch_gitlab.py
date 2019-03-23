@@ -5,7 +5,7 @@ Clone/Fetch repositories from GitLab using personal token
 import json
 import sys
 from multiprocessing import Manager, Pool
-from typing import Dict, List
+from typing import Dict, List, Optional
 from urllib.request import urlopen
 
 from automate.common.git import fetch_repo
@@ -13,7 +13,7 @@ from automate.common.printing import print_green, print_yellow
 from automate.common.read import read_configs
 
 
-def fetch_gitlab(working_directoy, args) -> None:
+def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     """Clone/Fetch from GitLab
 
     Arguments:
