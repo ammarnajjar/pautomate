@@ -4,29 +4,24 @@
 Custom Printing functions
 """
 
-
-def print_green(text: str) -> None:
-    """Print in Green
-
-    Arguments:
-        text {str} -- Text to print
-    """
-    print(f'\033[92m* {text}\033[0m')
+import functools
 
 
-def print_red(text: str) -> None:
-    """Print in Red
+def with_color(color_code: str):
+    """Coloring decorator
 
     Arguments:
-        text {str} -- Text to print
+        color_code {str} -- e.g.: '\033[91m'
     """
-    print(f'\033[91m* {text}\033[0m')
+    def wrapper(func):
+        @functools.wraps(func)
+        def inner(args):
+            result = func(f'{color_code}{args}\033[0m')
+            return result
+        return inner
+    return wrapper
 
 
-def print_yellow(text: str) -> None:
-    """Print in Yellow
-
-    Arguments:
-        text {str} -- Text to print
-    """
-    print(f'\033[93m* {text}\033[0m')
+print_red = with_color('\033[91m* ')(print)
+print_green = with_color('\033[92m* ')(print)
+print_yellow = with_color('\033[93m* ')(print)
