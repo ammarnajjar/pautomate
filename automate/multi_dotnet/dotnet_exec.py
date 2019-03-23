@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""
+Run dotnet services in parallel via dotnet core CLI
+"""
+from automate.common.printing import print_yellow
+from automate.common.read import read_configs
+from automate.common.services import start_service
+
+
+def dotnet_exec(working_directory, command, watch_mode, args):
+    """Execute dotnet command
+
+    Arguments:
+        working_directory {str} -- path to the projects
+        command {str} -- [run, test, restore, build, clean]
+        watch_mode {bool} -- watch code changes
+        args {[str]} -- projects name (full/partial)
+    """
+    configs = read_configs(working_directory)
+    dotnet_projects = configs.get('dotnet_projects')
+
+    if watch_mode:
+        print_yellow('Watch mode enabled')
+
+    if args:
+        dotnet_projects = list(filter(lambda pro: any(
+            [arg in pro for arg in args]), dotnet_projects))
+
+    for dotnet_project in dotnet_projects:
+        start_service(working_directory, dotnet_project, command, watch_mode)
