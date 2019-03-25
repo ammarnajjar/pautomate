@@ -4,7 +4,7 @@ Run dotnet services in parallel via dotnet core CLI
 """
 from typing import List, Optional
 
-from automate.common.printing import print_yellow
+from automate.common.printing import print_red, print_yellow
 from automate.common.read import read_configs
 from automate.common.services import start_service
 
@@ -28,5 +28,9 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
         dotnet_projects = list(filter(lambda pro: any(
             [arg in pro for arg in args]), dotnet_projects))
 
-    for dotnet_project in dotnet_projects:
-        start_service(working_directory, dotnet_project, command, watch_mode)
+    try:
+        for dotnet_project in dotnet_projects:
+            start_service(working_directory, dotnet_project,
+                          command, watch_mode)
+    except TypeError:
+        print_red('No dotnet projects were configured in ./config.json')
