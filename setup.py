@@ -32,6 +32,9 @@ setup(
     entry_points={
         'console_scripts': [
             'automate=automate.cli:cli',
+            'fetch=automate.cli:fetch',
+            'dnet=automate.cli:dotnet',
+            'branches=automate.cli:branches',
         ],
     },
     install_requires=requirements,
