@@ -40,22 +40,22 @@ def shell_first(command: str) -> str:
     return subprocess.check_output(cmd).decode("utf-8").split('\n')[0]
 
 
-def hard_reset(repo_path: str) -> None:
+def hard_reset(repo_path: str) -> str:
     """reset --hard
 
     Arguments:
         repo_path {str} -- path to repo to reset
     """
-    print_yellow(shell(f'git -C {repo_path} reset --hard'))
+    return shell(f'git -C {repo_path} reset --hard')
 
 
-def print_branches_info(repo_path: str) -> None:
+def get_branches_info(repo_path: str) -> str:
     """git branch -a
 
     Arguments:
         repo_path {str} -- path to repo
     """
-    print(shell(f'git -C {repo_path} branch -a'))
+    return shell(f'git -C {repo_path} branch -a')
 
 
 def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[str, str]) -> None:

@@ -6,8 +6,8 @@ import glob
 from os import pardir, path
 from typing import List, Optional
 
-from automate.common.git import hard_reset, print_branches_info
-from automate.common.printing import print_green, print_red
+from automate.common.git import get_branches_info, hard_reset
+from automate.common.printing import print_green, print_red, print_yellow
 
 
 def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:
@@ -33,5 +33,5 @@ def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[s
     for repo_path in repos:
         print_green(repo_path)
         if reset_mode:
-            hard_reset(repo_path)
-        print_branches_info(repo_path)
+            print_yellow(hard_reset(repo_path))
+        print(get_branches_info(repo_path))
