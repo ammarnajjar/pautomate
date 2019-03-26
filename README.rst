@@ -12,6 +12,10 @@ Pautomate
      :alt: Updates
 
 
+.. image:: https://readthedocs.org/projects/pautomate/badge/?version=latest
+     :target: https://pautomate.readthedocs.io/en/latest/?badge=latest
+     :alt: Documentation Status
+
 
 Automate my boring stuff.
 
