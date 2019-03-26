@@ -21,7 +21,7 @@ Automate my boring stuff.
 
 
 * Free software: MIT license
-* Documentation [TODO]: https://pautomate.readthedocs.io.
+* Documentation: https://pautomate.readthedocs.io.
 
 
 Features
