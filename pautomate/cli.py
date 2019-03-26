@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-"""CLI for automate."""
+"""CLI for pautomate."""
 
 from os import getcwd
 
 import click
 
-from automate.common.printing import print_green
-from automate.common.timeit import timeit
-from automate.git_repos.branches import get_branches
-from automate.git_repos.fetch_gitlab import fetch_gitlab
-from automate.multi_dotnet.dotnet_exec import dotnet_exec
+from pautomate.common.printing import print_green
+from pautomate.common.timeit import timeit
+from pautomate.git_repos.branches import get_branches
+from pautomate.git_repos.fetch_gitlab import fetch_gitlab
+from pautomate.multi_dotnet.dotnet_exec import dotnet_exec
 
 ROOT = getcwd()
 
@@ -33,7 +33,7 @@ PASS_WORKING_DIRECTORY = click.make_pass_decorator(
               help='[.] Target workspace.')
 @PASS_WORKING_DIRECTORY
 def cli(working_directory, target):
-    """Console interface for automate"""
+    """Console interface for pautomate"""
     working_directory.path = target
 
 

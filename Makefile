@@ -51,7 +51,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	python -m flake8 --config=flake8rc automate tests
+	python -m flake8 --config=flake8rc pautomate tests
 
 test: ## run tests quickly with the default Python
 	python -m pytest tests
@@ -60,15 +60,15 @@ test-all: ## run tests on every Python version with tox
 	python -m tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source automate -m pytest
+	coverage run --source pautomate -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/automate.rst
+	rm -f docs/pautomate.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ automate
+	sphinx-apidoc -o docs/ pautomate
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html

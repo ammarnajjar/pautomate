@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `automate` package."""
+"""Tests for `pautomate` package."""
 
 import pytest
 from click.testing import CliRunner
 
-from automate import cli
+from pautomate import cli
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def test_command_line_cli_interface(runner):
     """Test the CLI."""
     result = runner.invoke(cli.cli)
     assert result.exit_code == 0
-    assert 'Console interface for automate' in result.output
+    assert 'Console interface for pautomate' in result.output
 
 
 def test_command_line_interface_help(runner):

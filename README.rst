@@ -1,14 +1,14 @@
-========
-Automate
-========
+=========
+Pautomate
+=========
 
 
-.. image:: https://img.shields.io/travis/ammarnajjar/automate.svg
-        :target: https://travis-ci.org/ammarnajjar/automate
+.. image:: https://img.shields.io/travis/ammarnajjar/pautomate.svg
+        :target: https://travis-ci.org/ammarnajjar/pautomate
 
 
-.. image:: https://pyup.io/repos/github/ammarnajjar/automate/shield.svg
-     :target: https://pyup.io/repos/github/ammarnajjar/automate/
+.. image:: https://pyup.io/repos/github/ammarnajjar/pautomate/shield.svg
+     :target: https://pyup.io/repos/github/ammarnajjar/pautomate/
      :alt: Updates
 
 
@@ -17,7 +17,7 @@ Automate my boring stuff.
 
 
 * Free software: MIT license
-* Documentation [TODO]: https://automate.readthedocs.io.
+* Documentation [TODO]: https://pautomate.readthedocs.io.
 
 
 Features

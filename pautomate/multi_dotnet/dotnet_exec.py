@@ -4,9 +4,9 @@ Run dotnet services in parallel via dotnet core CLI
 """
 from typing import List, Optional
 
-from automate.common.printing import print_red, print_yellow
-from automate.common.read import read_configs
-from automate.common.services import start_service
+from pautomate.common.printing import print_red, print_yellow
+from pautomate.common.read import read_configs
+from pautomate.common.services import start_service
 
 
 def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Optional[List[str]]):

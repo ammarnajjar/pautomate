@@ -1,22 +1,22 @@
-automate package
-================
+pautomate package
+=================
 
 Subpackages
 -----------
 
 .. toctree::
 
-    automate.common
-    automate.git_repos
-    automate.multi_dotnet
+    pautomate.common
+    pautomate.git_repos
+    pautomate.multi_dotnet
 
 Submodules
 ----------
 
-automate.cli module
--------------------
+pautomate.cli module
+--------------------
 
-.. automodule:: automate.cli
+.. automodule:: pautomate.cli
     :members:
     :undoc-members:
     :show-inheritance:
@@ -25,7 +25,7 @@ automate.cli module
 Module contents
 ---------------
 
-.. automodule:: automate
+.. automodule:: pautomate
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,7 +1,7 @@
-automate
-========
+pautomate
+=========
 
 .. toctree::
    :maxdepth: 4
 
-   automate
+   pautomate

@@ -8,9 +8,9 @@ from multiprocessing import Manager, Pool
 from typing import Dict, List, Optional
 from urllib.request import urlopen
 
-from automate.common.git import fetch_repo
-from automate.common.printing import print_green, print_yellow
-from automate.common.read import read_configs
+from pautomate.common.git import fetch_repo
+from pautomate.common.printing import print_green, print_yellow
+from pautomate.common.read import read_configs
 
 
 def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:

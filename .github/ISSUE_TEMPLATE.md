@@ -1,6 +1,6 @@
-* Automate version:
-* Python version:
-* Operating System:
+-   Pautomate version:
+-   Python version:
+-   Operating System:
 
 ### Description
 

@@ -2,26 +2,26 @@
 Usage
 =====
 
-To use Automate in a project
-----------------------------
+To use Pautomate in a project
+-----------------------------
 
 import as::
 
- import automate
+ import pautomate
 
-To use Automate as a CLI Application
-------------------------------------
+To use Pautomate as a CLI Application
+-------------------------------------
 
 Show help:
 ^^^^^^^^^^
 
 Just run::
 
- automate --help
+ pautomate --help
 
- Usage: automate [OPTIONS] COMMAND [ARGS]...
+ Usage: pautomate [OPTIONS] COMMAND [ARGS]...
 
-   Console interface for automate
+   Console interface for pautomate
 
  Options:
    -t, --target PATH  [.] Target workspace.
@@ -41,27 +41,27 @@ Commands:
 
 Get branches informations in the current directory::
 
- automate -t . branches
+ pautomate -t . branches
 
 The target is by default the current directory.
 
 Get the branches informations after resetting hard to head::
 
- automate beanches -r
+ pautomate beanches -r
 
 Careful that this is a **distructive** command, for it uses `git reset --hard` on all the repos treated.
 
 To select only repositories that contatin a specific pattern in them and get thier informations (e.g: `py`)::
 
- automate branches py  # only repositories with "py" in them will be considerd
+ pautomate branches py  # only repositories with "py" in them will be considerd
 
 The last set of agruments acts like a filter. More than one argument can also be given, and all will be considerd as filters::
 
- automate branches py api service  # only repositories with "py" in them will be considerd
+ pautomate branches py api service  # only repositories with "py" in them will be considerd
 
 More info can be found using the help command::
 
- automate dotnet --help
+ pautomate dotnet --help
 
 - **fetch**:
 
@@ -88,15 +88,15 @@ More about gitlab personal access tokens can be found in the official documentat
 
 To fetch repositories::
 
- automate fetch
+ pautomate fetch
 
 To pass a white list pattern::
 
- automate fetch py demo    # fetch/clone only what has "py" or "demo" in its name
+ pautomate fetch py demo    # fetch/clone only what has "py" or "demo" in its name
 
 More info can be found using the help command::
 
- automate fetch --help
+ pautomate fetch --help
 
 - **dotnet**:
 
@@ -114,23 +114,23 @@ A process pool will be initialized to conatain the running processes.
 
 All the allowed dotnet commands are supported e.g.::
 
- automate dotnet run      # run projects in config.json in parallel
- automate dotnet run -w   # run projects in watch mode
- automate dotnet test -w  # run test projects in watch mode
- automate dotnet clean py demo  # dotnet clean only projects that has either "py" or "demo" in its name
- automate dotnet build demo  # dotnet build only projects that has "demo" in its name
+ pautomate dotnet run      # run projects in config.json in parallel
+ pautomate dotnet run -w   # run projects in watch mode
+ pautomate dotnet test -w  # run test projects in watch mode
+ pautomate dotnet clean py demo  # dotnet clean only projects that has either "py" or "demo" in its name
+ pautomate dotnet build demo  # dotnet build only projects that has "demo" in its name
 
 More info can be found using the help command::
 
- automate dotnet --help
+ pautomate dotnet --help
 
 Entry Points
 ------------
 
 There is an extra entry point supported for each command, to make it faster to get the job done. So each command can also be executed in a short form::
 
- automate fetch    -> fetch
- automate branches -> branches
- automate dotnet   -> dnet
+ pautomate fetch    -> fetch
+ pautomate branches -> branches
+ pautomate dotnet   -> dnet
 
 .. _documentation: target https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Top-level package for Automate."""
+"""Top-level package for Ppautomate."""
 
 __author__ = """Ammar Najjar"""
 __email__ = 'najjarammar@protonmail.com'

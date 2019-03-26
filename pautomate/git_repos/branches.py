@@ -6,8 +6,8 @@ import glob
 from os import pardir, path
 from typing import List, Optional
 
-from automate.common.git import get_branches_info, hard_reset
-from automate.common.printing import print_green, print_red, print_yellow
+from pautomate.common.git import get_branches_info, hard_reset
+from pautomate.common.printing import print_green, print_red, print_yellow
 
 
 def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:

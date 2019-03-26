@@ -1,4 +1,4 @@
-Welcome to Automate's documentation!
+Welcome to Pautomate's documentation!
 ======================================
 
 .. toctree::
