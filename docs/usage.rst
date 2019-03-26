@@ -141,14 +141,14 @@ To run using docker:
 
 - build image::
 
- docker build --rm -f "Dockerfile" -t pautomate .
+   docker build --rm -f "Dockerfile" -t pautomate .
 
 - run the desired entry point::
 
- docker run --rm -v $(pwd):/ws:rw -it pautomate --help
- docker run --rm -v $(pwd):/ws:rw -it pautomate dotnet --help
- docker run --rm -v $(pwd):/ws:rw -it pautomate fetch --help
- docker run --rm -v $(pwd):/ws:rw -it pautomate branches --help
+   docker run --rm -v $(pwd):/ws:rw -it pautomate --help
+   docker run --rm -v $(pwd):/ws:rw -it pautomate dotnet --help
+   docker run --rm -v $(pwd):/ws:rw -it pautomate fetch --help
+   docker run --rm -v $(pwd):/ws:rw -it pautomate branches --help
 
 
 .. _documentation: target https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
