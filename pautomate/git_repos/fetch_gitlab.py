@@ -8,11 +8,12 @@ from multiprocessing import Manager, Pool
 from typing import Dict, List, Optional
 from urllib.request import urlopen
 
-from pautomate.common.git import fetch_repo
-from pautomate.common.printing import print_green, print_yellow
-from pautomate.common.read import read_configs
+from ..common.git import fetch_repo
+from ..common.logger import logger, pass_logger
+from ..common.read import read_configs
 
 
+@pass_logger(logger)
 def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     """Clone/Fetch from GitLab
 
@@ -24,7 +25,7 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     gitlab_url = configs.get('gitlab_url')
     gitlab_token = configs.get('gitlab_token')
     if not(gitlab_url and gitlab_token):
-        print('Please provide gitlab configs in your config.json')
+        logger.error('Please provide gitlab configs in your config.json')
         sys.exit(1)
 
     projects = urlopen(
@@ -52,7 +53,5 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     pool.close()
     pool.join()
 
-    print('==============')
-    print_green('Summery:')
     for repo_name, current_branch in summery_info.items():
-        print_yellow(f'{repo_name} => {current_branch}')
+        logger.warning(f'{repo_name} => {current_branch}')

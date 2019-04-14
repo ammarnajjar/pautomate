@@ -9,10 +9,11 @@ from multiprocessing import Process
 from os import path
 from typing import List
 
-from .printing import print_green
+from ..common.logger import logger, pass_logger
 
 
-def run(project: str, command_type: str, watch_mode: bool):
+@pass_logger(logger)
+def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b"Waiting for"):
     """Execute dotnet command
 
     Arguments:
@@ -28,10 +29,18 @@ def run(project: str, command_type: str, watch_mode: bool):
     else:
         command = shlex.split(f'dotnet {command_type} {project}')
 
-    process = subprocess.Popen(command)
-    process.communicate(input=None)
+    proc = subprocess.Popen(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        while True:
+            line = proc.stdout.readline()
+            if line != b'' and filter not in line:
+                print(line.rstrip().decode('utf-8'))
+    except KeyboardInterrupt:
+        logger.info('dotnet command exits by KeyboardInterrupt')
 
 
+@pass_logger(logger)
 def start_service(working_directory: str, service_name: str, command: str, watch_mode: bool):
     """Start process container
 
@@ -54,6 +63,6 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         exec_pros = runnable_projects
 
     for project in exec_pros:
-        print_green(service_name)
+        logger.info(service_name)
         job = Process(target=run, args=(project, command, watch_mode))
         job.start()

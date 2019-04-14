@@ -7,9 +7,11 @@ from os import pardir, path
 from typing import List, Optional
 
 from pautomate.common.git import get_branches_info, hard_reset
-from pautomate.common.printing import print_green, print_red, print_yellow
+
+from ..common.logger import logger, pass_logger
 
 
+@pass_logger(logger)
 def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:
     """Get branches info
 
@@ -24,14 +26,14 @@ def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[s
         repos.append(repo_path)
 
     if reset_mode:
-        print_red('Reset mode enabled')
+        logger.warning('Reset mode enabled')
 
     if args:
         repos = list(filter(lambda repo: any(
             [arg in repo for arg in args]), [path.basename(repo) for repo in repos]))
 
     for repo_path in repos:
-        print_green(repo_path)
+        logger.info(repo_path)
         if reset_mode:
-            print_yellow(hard_reset(repo_path))
-        print(get_branches_info(repo_path))
+            logger.warning(hard_reset(repo_path))
+        logger.info(get_branches_info(repo_path))

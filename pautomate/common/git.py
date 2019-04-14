@@ -7,7 +7,7 @@ import subprocess
 from os import path
 from typing import Dict
 
-from .printing import print_green, print_yellow
+from ..common.logger import logger, pass_logger
 
 
 def shell(command: str) -> str:
@@ -21,10 +21,7 @@ def shell(command: str) -> str:
     """
     cmd = shlex.split(command)
     output_lines = subprocess.check_output(cmd).decode("utf-8").split('\n')
-    for index, line in enumerate(output_lines):
-        if '*' in line:
-            output_lines[index] = f'\033[93m{line}\033[0m'
-    return '\n'.join(output_lines)
+    return [line.strip() for line in output_lines if line]
 
 
 def shell_first(command: str) -> str:
@@ -58,6 +55,7 @@ def get_branches_info(repo_path: str) -> str:
     return shell(f'git -C {repo_path} branch -a')
 
 
+@pass_logger(logger)
 def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[str, str]) -> None:
     """Clone / Fetch repo
 
@@ -69,7 +67,7 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
     """
     repo_path = path.join(working_directory, name)
     if path.isdir(repo_path):
-        print_green(f'Fetching {name}')
+        logger.info(f'Fetching {name}')
         shell_first(f'git -C {repo_path} fetch')
         remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
         current_branch = shell_first(
@@ -78,12 +76,12 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
             shell_first(
                 f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}')
         else:
-            print_yellow(f'{current_branch} does not exist on remote')
+            logger.warning(f'{current_branch} does not exist on remote')
 
         if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):
             shell_first(f'git -C {repo_path} fetch origin develop:develop')
     else:
-        print_green(f'Cloning {name}')
+        logger.info(f'Cloning {name}')
         shell_first(f'git clone {url} {name}')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')

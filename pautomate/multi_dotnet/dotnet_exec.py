@@ -4,11 +4,12 @@ Run dotnet services in parallel via dotnet core CLI
 """
 from typing import List, Optional
 
-from pautomate.common.printing import print_red, print_yellow
-from pautomate.common.read import read_configs
-from pautomate.common.services import start_service
+from ..common.logger import logger, pass_logger
+from ..common.read import read_configs
+from ..common.services import start_service
 
 
+@pass_logger(logger)
 def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Optional[List[str]]):
     """Execute dotnet command
 
@@ -22,7 +23,7 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
     dotnet_projects = configs.get('dotnet_projects')
 
     if watch_mode:
-        print_yellow('Watch mode enabled')
+        logger.warning('Watch mode enabled')
 
     if args:
         dotnet_projects = list(filter(lambda pro: any(
@@ -33,4 +34,4 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
             start_service(working_directory, dotnet_project,
                           command, watch_mode)
     except TypeError:
-        print_red('No dotnet projects were configured in ./config.json')
+        logger.error('No dotnet projects were configured in ./config.json')
