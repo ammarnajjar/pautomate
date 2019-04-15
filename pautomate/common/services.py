@@ -9,7 +9,8 @@ from multiprocessing import Process
 from os import path
 from typing import List
 
-from ..common.logger import logger, pass_logger
+from .colorize import print_green
+from .logger import logger, pass_logger
 
 
 @pass_logger(logger)
@@ -29,6 +30,7 @@ def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b"Wai
     else:
         command = shlex.split(f'dotnet {command_type} {project}')
 
+    logger.debug(f'dotnet command: {command}')
     proc = subprocess.Popen(
         command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     try:
@@ -37,7 +39,7 @@ def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b"Wai
             if line != b'' and filter not in line:
                 print(line.rstrip().decode('utf-8'))
     except KeyboardInterrupt:
-        logger.info('dotnet command exits by KeyboardInterrupt')
+        logger.info(f'dotnet command {command} exited by KeyboardInterrupt')
 
 
 @pass_logger(logger)
@@ -51,10 +53,13 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         args {[str]} -- projects name (full/partial)
     """
     repo_path = path.join(working_directory, service_name)
+    logger.debug(f'repo path: {repo_path}')
     test_projects = list(
         filter(lambda pro: 'test' in pro.lower(), glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)))
+    logger.debug(f'test projects: {test_projects}')
     runnable_projects = list(
         filter(lambda pro: 'test' not in pro.lower(), glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)))
+    logger.debug(f'runnable projects: {runnable_projects}')
 
     exec_pros: List[str] = []
     if command == 'test':
@@ -62,7 +67,9 @@ def start_service(working_directory: str, service_name: str, command: str, watch
     else:
         exec_pros = runnable_projects
 
+    logger.debug(f'projects to execute: {exec_pros}')
     for project in exec_pros:
-        logger.info(service_name)
+        logger.info(f'service_name: {service_name}')
+        print_green(service_name)
         job = Process(target=run, args=(project, command, watch_mode))
         job.start()

@@ -2,19 +2,17 @@
 
 """CLI for pautomate."""
 
-from os import getcwd
+import os
 
 import click
 
-from pautomate.common.logger import logger
+from pautomate.common.colorize import print_green
 from pautomate.common.timeit import timeit
 from pautomate.git_repos.branches import get_branches
 from pautomate.git_repos.fetch_gitlab import fetch_gitlab
 from pautomate.multi_dotnet.dotnet_exec import dotnet_exec
 
-logger.name = __name__
-
-ROOT = getcwd()
+ROOT = os.getcwd()
 
 
 class WorkingDirectory:
@@ -43,7 +41,7 @@ def cli(working_directory, target):
 @click.option('-r', '--reset', is_flag=True, default=False, help='reset --hard')
 @click.argument('args', nargs=-1, type=click.UNPROCESSED)
 @PASS_WORKING_DIRECTORY
-@timeit(logger.info)
+@timeit(print_green)
 def branches(working_directory, reset, args):
     """
     Get branches infos in the local workspace
@@ -58,7 +56,7 @@ def branches(working_directory, reset, args):
 @cli.command()
 @click.argument('args', nargs=-1, type=click.UNPROCESSED)
 @PASS_WORKING_DIRECTORY
-@timeit(logger.info)
+@timeit(print_green)
 def fetch(working_directory, args):
     """
     Clone/fetch projects from Gitlab using the private token

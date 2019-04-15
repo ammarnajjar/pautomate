@@ -7,7 +7,8 @@ import subprocess
 from os import path
 from typing import Dict
 
-from ..common.logger import logger, pass_logger
+from .colorize import print_green, print_yellow
+from .logger import logger, pass_logger
 
 
 def shell(command: str) -> str:
@@ -19,6 +20,7 @@ def shell(command: str) -> str:
     Returns:
         str -- output of the shell
     """
+    logger.debug(f'shell: {command}')
     cmd = shlex.split(command)
     output_lines = subprocess.check_output(cmd).decode("utf-8").split('\n')
     return [line.strip() for line in output_lines if line]
@@ -33,6 +35,7 @@ def shell_first(command: str) -> str:
     Returns:
         str -- first line of output
     """
+    logger.debug(f'shell: {command}')
     cmd = shlex.split(command)
     return subprocess.check_output(cmd).decode("utf-8").split('\n')[0]
 
@@ -68,21 +71,28 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
     repo_path = path.join(working_directory, name)
     if path.isdir(repo_path):
         logger.info(f'Fetching {name}')
+        print_green(f'Fetching {name}')
         shell_first(f'git -C {repo_path} fetch')
         remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
+        logger.debug(f'remote branches: {remote_banches}')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+        logger.debug(f'current branch: {current_branch}')
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
                 f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}')
         else:
             logger.warning(f'{current_branch} does not exist on remote')
+            print_yellow(f'{current_branch} does not exist on remote')
 
         if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):
             shell_first(f'git -C {repo_path} fetch origin develop:develop')
     else:
         logger.info(f'Cloning {name}')
+        print_green(f'Cloning {name}')
         shell_first(f'git clone {url} {name}')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+        logger.debug(f'current branch: {current_branch}')
     summery_info.update({name: current_branch})
+    logger.debug(f'summery info: {summery_info}')

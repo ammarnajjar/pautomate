@@ -4,10 +4,16 @@ Custom logger
 """
 import functools
 import logging
+import os
 
-from . import logjson
+from .logjson import filelogger
 
-logger = logjson.streamlogger(
+LOGS_FILENAME = 'pautimate.log'
+LOGS_DIR = '.logs'
+if not os.path.isdir(os.path.join(os.getcwd(), LOGS_DIR)):
+    os.mkdir(LOGS_DIR)
+
+logger = filelogger(
     __name__,
     [
         'levelname',
@@ -15,11 +21,12 @@ logger = logjson.streamlogger(
         'name',
         'lineno',
     ],
+    filename=os.path.join(LOGS_DIR, LOGS_FILENAME),
     level=logging.DEBUG,
 )
 
 
-def pass_logger(logger: logjson.streamlogger):
+def pass_logger(logger: filelogger):
     """Pass Logger decorator
     When used with a function, it changes the
     name of the logger (singleton) to match
@@ -27,7 +34,7 @@ def pass_logger(logger: logjson.streamlogger):
     it restore it to its original value.
 
     Arguments:
-        logger: {streamlogger}
+        logger: {filelogger}
     """
     def wrapper(func):
         @functools.wraps(func)

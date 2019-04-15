@@ -8,6 +8,7 @@ from multiprocessing import Manager, Pool
 from typing import Dict, List, Optional
 from urllib.request import urlopen
 
+from ..common.colorize import print_red, print_yellow
 from ..common.git import fetch_repo
 from ..common.logger import logger, pass_logger
 from ..common.read import read_configs
@@ -25,7 +26,8 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     gitlab_url = configs.get('gitlab_url')
     gitlab_token = configs.get('gitlab_token')
     if not(gitlab_url and gitlab_token):
-        logger.error('Please provide gitlab configs in your config.json')
+        logger.error('No gitlab configs are provided in config.json')
+        print_red('Please provide gitlab configs in your config.json')
         sys.exit(1)
 
     projects = urlopen(
@@ -35,17 +37,22 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     if args:
         all_projects = list(filter(lambda pro: any(
             [arg in pro.get('name') for arg in args]), all_projects))
+        logger.debug(f'all projects: {all_projects}')
 
     ignore_list = configs.get('ignore_list')
     if isinstance(ignore_list, List):
         all_projects = list(filter(lambda pro: all(
             [ignored_repo not in pro.get('name') for ignored_repo in ignore_list]), all_projects))
+        logger.debug(f'projects after ignore list: {all_projects}')
 
     manager = Manager()
     summery_info: Dict[str, str] = manager.dict()
 
-    pool = Pool(processes=8)
+    processes_count = 8
+    logger.debug(f'using ({processes_count}) processes')
+    pool = Pool(processes=processes_count)
     for project in all_projects:
+        logger.debug(f'project: {project}')
         url = project.get('ssh_url_to_repo')
         name = project.get('name').replace(' ', '-').replace('.', '-')
         pool.apply_async(fetch_repo, args=(
@@ -55,3 +62,4 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
 
     for repo_name, current_branch in summery_info.items():
         logger.warning(f'{repo_name} => {current_branch}')
+        print_yellow(f'{repo_name} => {current_branch}')
