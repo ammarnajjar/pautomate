@@ -5,14 +5,17 @@ Custom logger
 import functools
 import logging
 import os
+from datetime import datetime
 
 from .logjson import filelogger
 
-LOGS_FILENAME = 'pautimate.log'
 LOGS_DIR = '.logs'
+
 if not os.path.isdir(os.path.join(os.getcwd(), LOGS_DIR)):
     os.mkdir(LOGS_DIR)
 
+NOW = datetime.now().strftime("%y-%m-%d_%H-%M-%S")
+LOGS_FILENAME = f'{NOW}_pautimate.log'
 logger = filelogger(
     __name__,
     [
