@@ -21,10 +21,10 @@ import sys
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
-import pautomate
-
 sys.path.insert(0, os.path.abspath('..'))
 
+
+import pautomate
 
 # -- General configuration ---------------------------------------------
 

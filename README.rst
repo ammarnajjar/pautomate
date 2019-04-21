@@ -34,12 +34,14 @@ Features
 * Reset --hard branches with a flag (-r)
 * Run multiple dotnet core commands on different projects in parallel.
 * The dotnet command type can be passed as an argument.
+* All logs are stored in a JSON format.
 
 Credits
 -------
 
-This package was created originally with Cookiecutter_ and
-the `audreyr/cookiecutter-pypackage`_ project template.
+- This package was created originally with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+
+- `logjson` was created originally by Michael Blan Palmer.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
