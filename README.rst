@@ -17,6 +17,17 @@ Pautomate
      :alt: Documentation Status
 
 
+.. image:: https://api.codacy.com/project/badge/Grade/04f9376738754681bb41b2170b9627cd
+     :target: https://www.codacy.com/app/ammarnajjar/pautomate?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ammarnajjar/pautomate&amp;utm_campaign=Badge_Grade
+     :alt: Quality
+
+
+.. image:: https://api.codeclimate.com/v1/badges/66a1a426774d955d67bc/maintainability
+     :target: https://codeclimate.com/github/ammarnajjar/pautomate/maintainability
+     :alt: Maintainability
+
+
+
 Automate my boring stuff.
 
 
