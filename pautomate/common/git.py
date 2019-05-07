@@ -2,7 +2,6 @@
 """
 Run Git commands in separate processes
 """
-import shlex
 import subprocess
 from os import path
 from typing import Dict
@@ -20,8 +19,11 @@ def shell(command: str) -> str:
     Returns:
         str -- output of the shell
     """
-    cmd = shlex.split(command)
-    output_lines = subprocess.check_output(cmd).decode('utf-8').split('\n')
+    out, err = subprocess.Popen(
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    ).communicate()
+    stdout, stderr = out.decode('utf-8'), err.decode('utf-8')
+    output_lines = f'{stdout}\n{stderr}'.split('\n')
     for index, line in enumerate(output_lines):
         if '*' in line:
             output_lines[index] = f'\033[93m{line}\033[0m'
@@ -35,10 +37,12 @@ def shell_first(command: str) -> str:
         command {str} -- to execute in shell
 
     Returns:
-        str -- first line of output
+        str -- first line of stdout
     """
-    cmd = shlex.split(command)
-    return subprocess.check_output(cmd).decode('utf-8').split('\n')[0]
+    out, _ = subprocess.Popen(
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    ).communicate()
+    return out.decode('utf-8').split('\n')[0]
 
 
 def hard_reset(repo_path: str) -> str:
