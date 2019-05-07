@@ -10,11 +10,12 @@ from os import path
 from typing import List
 
 from .colorize import print_green
-from .logger import logger, pass_logger
+from .logger import logger
+from .logger import pass_logger
 
 
 @pass_logger(logger)
-def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b"Waiting for"):
+def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b'Waiting for'):
     """Execute dotnet command
 
     Arguments:
@@ -32,7 +33,8 @@ def run(project: str, command_type: str, watch_mode: bool, filter: bytes = b"Wai
 
     logger.debug(f'dotnet command: {command}')
     proc = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
     try:
         while True:
             line = proc.stdout.readline()
@@ -55,10 +57,20 @@ def start_service(working_directory: str, service_name: str, command: str, watch
     repo_path = path.join(working_directory, service_name)
     logger.debug(f'repo path: {repo_path}')
     test_projects = list(
-        filter(lambda pro: 'test' in pro.lower(), glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)))
+        filter(
+            lambda pro: 'test' in pro.lower(), glob.iglob(
+                f'{repo_path}/**/*.csproj', recursive=True,
+            ),
+        ),
+    )
     logger.debug(f'test projects: {test_projects}')
     runnable_projects = list(
-        filter(lambda pro: 'test' not in pro.lower(), glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)))
+        filter(
+            lambda pro: 'test' not in pro.lower(), glob.iglob(
+                f'{repo_path}/**/*.csproj', recursive=True,
+            ),
+        ),
+    )
     logger.debug(f'runnable projects: {runnable_projects}')
 
     exec_pros: List[str] = []

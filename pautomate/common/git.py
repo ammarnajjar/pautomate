@@ -2,16 +2,18 @@
 """
 Run Git commands in separate processes
 """
-import shlex
 import subprocess
 from os import path
 from typing import Dict
+from typing import List
 
-from .colorize import print_green, print_yellow
-from .logger import logger, pass_logger
+from .colorize import print_green
+from .colorize import print_yellow
+from .logger import logger
+from .logger import pass_logger
 
 
-def shell(command: str) -> str:
+def shell(command: str) -> List[str]:
     """Execute shell command
 
     Arguments:
@@ -21,8 +23,11 @@ def shell(command: str) -> str:
         str -- output of the shell
     """
     logger.debug(f'shell: {command}')
-    cmd = shlex.split(command)
-    output_lines = subprocess.check_output(cmd).decode("utf-8").split('\n')
+    out, err = subprocess.Popen(
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    ).communicate()
+    stdout, stderr = out.decode('utf-8'), err.decode('utf-8')
+    output_lines = f'{stdout}\n{stderr}'.split('\n')
     return [line.strip() for line in output_lines if line]
 
 
@@ -33,14 +38,16 @@ def shell_first(command: str) -> str:
         command {str} -- to execute in shell
 
     Returns:
-        str -- first line of output
+        str -- first line of stdout
     """
     logger.debug(f'shell: {command}')
-    cmd = shlex.split(command)
-    return subprocess.check_output(cmd).decode("utf-8").split('\n')[0]
+    out, _ = subprocess.Popen(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    ).communicate()
+    return out.decode('utf-8').split('\n')[0]
 
 
-def hard_reset(repo_path: str) -> str:
+def hard_reset(repo_path: str) -> List[str]:
     """reset --hard
 
     Arguments:
@@ -49,7 +56,7 @@ def hard_reset(repo_path: str) -> str:
     return shell(f'git -C {repo_path} reset --hard')
 
 
-def get_branches_info(repo_path: str) -> str:
+def get_branches_info(repo_path: str) -> List[str]:
     """git branch -a
 
     Arguments:
@@ -76,11 +83,13 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
         remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
         logger.debug(f'remote branches: {remote_banches}')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+        )
         logger.debug(f'current branch: {current_branch}')
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}')
+                f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}',
+            )
         else:
             logger.warning(f'{current_branch} does not exist on remote')
             print_yellow(f'{current_branch} does not exist on remote')
@@ -92,7 +101,8 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
         print_green(f'Cloning {name}')
         shell_first(f'git clone {url} {name}')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+        )
         logger.debug(f'current branch: {current_branch}')
     summery_info.update({name: current_branch})
     logger.debug(f'summery info: {summery_info}')

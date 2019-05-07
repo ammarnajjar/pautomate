@@ -3,10 +3,13 @@
 Read JSON configurations
 """
 import json
-from typing import Dict, List, Union
+from typing import Dict
+from typing import List
+from typing import Union
 
 from .colorize import print_red
-from .logger import logger, pass_logger
+from .logger import logger
+from .logger import pass_logger
 
 
 @pass_logger(logger)

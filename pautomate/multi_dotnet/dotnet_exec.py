@@ -2,10 +2,13 @@
 """
 Run dotnet services in parallel via dotnet core CLI
 """
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
-from ..common.colorize import print_red, print_yellow
-from ..common.logger import logger, pass_logger
+from ..common.colorize import print_red
+from ..common.colorize import print_yellow
+from ..common.logger import logger
+from ..common.logger import pass_logger
 from ..common.read import read_configs
 from ..common.services import start_service
 
@@ -28,14 +31,19 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
         print_yellow('Watch mode enabled')
 
     if args:
-        dotnet_projects = list(filter(lambda pro: any(
-            [arg in pro for arg in args]), dotnet_projects))
+        dotnet_projects = list(filter(
+            lambda pro: any(
+                [arg in pro for arg in args],
+            ), dotnet_projects,
+        ))
         logger.info('Chosen dotnet projects: %r', dotnet_projects)
 
     try:
         for dotnet_project in dotnet_projects:
-            start_service(working_directory, dotnet_project,
-                          command, watch_mode)
+            start_service(
+                working_directory, dotnet_project,
+                command, watch_mode,
+            )
     except TypeError:
         logger.error('No dotnet projects were configured in ./config.json')
         print_red('No dotnet projects were configured in ./config.json')
