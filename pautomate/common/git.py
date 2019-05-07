@@ -40,7 +40,7 @@ def shell_first(command: str) -> str:
         str -- first line of stdout
     """
     out, _ = subprocess.Popen(
-        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     ).communicate()
     return out.decode('utf-8').split('\n')[0]
 
