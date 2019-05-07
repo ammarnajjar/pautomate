@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """The setup script."""
-
-from setuptools import find_packages, setup
+from setuptools import find_packages
+from setuptools import setup
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -18,7 +17,7 @@ setup_requirements = ['pytest-runner', ]
 test_requirements = ['pytest', ]
 
 setup(
-    author="Ammar Najjar",
+    author='Ammar Najjar',
     author_email='najjarammar@protonmail.com',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -28,7 +27,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Automate my boring stuff.",
+    description='Automate my boring stuff.',
     entry_points={
         'console_scripts': [
             'pautomate=pautomate.cli:cli',
@@ -38,7 +37,7 @@ setup(
         ],
     },
     install_requires=requirements,
-    license="MIT license",
+    license='MIT license',
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='pautomate',

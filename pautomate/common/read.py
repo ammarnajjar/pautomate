@@ -3,7 +3,9 @@
 Read JSON configurations
 """
 import json
-from typing import Dict, List, Union
+from typing import Dict
+from typing import List
+from typing import Union
 
 
 def read_configs(config_path: str) -> Dict[str, Union[List[str], str, None]]:

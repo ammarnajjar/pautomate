@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
 """CLI for pautomate."""
-
 from os import getcwd
 
 import click
@@ -25,12 +23,15 @@ class WorkingDirectory:
 
 
 PASS_WORKING_DIRECTORY = click.make_pass_decorator(
-    WorkingDirectory, ensure=True)
+    WorkingDirectory, ensure=True,
+)
 
 
 @click.group()
-@click.option('-t', '--target', type=click.Path(), default=ROOT,
-              help='[.] Target workspace.')
+@click.option(
+    '-t', '--target', type=click.Path(), default=ROOT,
+    help='[.] Target workspace.',
+)
 @PASS_WORKING_DIRECTORY
 def cli(working_directory, target):
     """Console interface for pautomate"""
