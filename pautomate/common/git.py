@@ -7,7 +7,8 @@ import subprocess
 from os import path
 from typing import Dict
 
-from .printing import print_green, print_yellow
+from .printing import print_green
+from .printing import print_yellow
 
 
 def shell(command: str) -> str:
@@ -20,7 +21,7 @@ def shell(command: str) -> str:
         str -- output of the shell
     """
     cmd = shlex.split(command)
-    output_lines = subprocess.check_output(cmd).decode("utf-8").split('\n')
+    output_lines = subprocess.check_output(cmd).decode('utf-8').split('\n')
     for index, line in enumerate(output_lines):
         if '*' in line:
             output_lines[index] = f'\033[93m{line}\033[0m'
@@ -37,7 +38,7 @@ def shell_first(command: str) -> str:
         str -- first line of output
     """
     cmd = shlex.split(command)
-    return subprocess.check_output(cmd).decode("utf-8").split('\n')[0]
+    return subprocess.check_output(cmd).decode('utf-8').split('\n')[0]
 
 
 def hard_reset(repo_path: str) -> str:
@@ -73,10 +74,12 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
         shell_first(f'git -C {repo_path} fetch')
         remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+        )
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}')
+                f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}',
+            )
         else:
             print_yellow(f'{current_branch} does not exist on remote')
 
@@ -86,5 +89,6 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
         print_green(f'Cloning {name}')
         shell_first(f'git clone {url} {name}')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --')
+            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+        )
     summery_info.update({name: current_branch})

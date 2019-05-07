@@ -3,11 +3,16 @@
 Get branches informations of repositories in the current directory.
 """
 import glob
-from os import pardir, path
-from typing import List, Optional
+from os import pardir
+from os import path
+from typing import List
+from typing import Optional
 
-from pautomate.common.git import get_branches_info, hard_reset
-from pautomate.common.printing import print_green, print_red, print_yellow
+from pautomate.common.git import get_branches_info
+from pautomate.common.git import hard_reset
+from pautomate.common.printing import print_green
+from pautomate.common.printing import print_red
+from pautomate.common.printing import print_yellow
 
 
 def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:
@@ -27,8 +32,11 @@ def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[s
         print_red('Reset mode enabled')
 
     if args:
-        repos = list(filter(lambda repo: any(
-            [arg in repo for arg in args]), [path.basename(repo) for repo in repos]))
+        repos = list(filter(
+            lambda repo: any(
+                [arg in repo for arg in args],
+            ), [path.basename(repo) for repo in repos],
+        ))
 
     for repo_path in repos:
         print_green(repo_path)

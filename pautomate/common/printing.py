@@ -1,9 +1,7 @@
-
 # -*- coding: utf-8 *-
 """
 Custom Printing functions
 """
-
 import functools
 
 

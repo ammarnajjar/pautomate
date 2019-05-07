@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """Tests for `pautomate` package."""
-
 import pytest
 from click.testing import CliRunner
 
@@ -30,8 +28,13 @@ def test_command_line_interface_help(runner):
     assert help_result.exit_code == 0
     assert '--help' in help_result.output
     assert 'Show this message and exit.' in help_result.output
-    assert all([entry_point in help_result.output for entry_point in [
-               '-t, --target', 'Target workspace', 'branches', 'dotnet', 'fetch']])
+    assert all(
+        [
+            entry_point in help_result.output for entry_point in [
+                '-t, --target', 'Target workspace', 'branches', 'dotnet', 'fetch',
+            ]
+        ],
+    )
 
 
 def test_fetch_entry_point(runner):
@@ -53,5 +56,10 @@ def test_dotnet_entry_point(runner):
     assert help_result.exit_code == 0
     assert '--help' in help_result.output
     assert 'Show this message and exit.' in help_result.output
-    assert all([entry_point in help_result.output for entry_point in [
-               '-w, --watch', 'Run in watch mode']])
+    assert all(
+        [
+            entry_point in help_result.output for entry_point in [
+                '-w, --watch', 'Run in watch mode',
+            ]
+        ],
+    )
