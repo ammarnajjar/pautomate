@@ -39,6 +39,9 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
         f'https://{gitlab_url}/api/v4/projects?membership=1&order_by=path&per_page=1000&private_token={gitlab_token}',
     )
     all_projects = json.loads(projects.read().decode())
+    logger.debug('All projects list:')
+    for pro in all_projects:
+        logger.debug(pro.get('path_with_namespace'))
 
     if args:
         all_projects = list(filter(
