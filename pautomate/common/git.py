@@ -60,7 +60,7 @@ def hard_reset(repo_path: str) -> List[str]:
 
 
 def reset_to_origin_develop(repo_path: str) -> List[str]:
-    """reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+    """checkout develop && reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 
     Arguments:
         repo_path {str} -- path to repo to reset
