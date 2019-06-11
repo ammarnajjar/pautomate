@@ -49,7 +49,11 @@ Get the branches informations after resetting hard to head::
 
  pautomate beanches -r
 
-Careful that this is a **distructive** command, for it uses `git reset --hard` on all the repos treated.
+Get the branches informations, checkout develop branch then hard reset it to origin/develop::
+
+ pautomate beanches -rd
+
+Careful that these are **distructive** commands, for they use `git reset --hard` on all the repos treated.
 
 To select only repositories that contatin a specific pattern in them and get thier informations (e.g: `py`)::
 
@@ -61,7 +65,7 @@ The last set of agruments acts like a filter. More than one argument can also be
 
 More info can be found using the help command::
 
- pautomate dotnet --help
+ pautomate beanches --help
 
 - **fetch**:
 
