@@ -40,10 +40,11 @@ def cli(working_directory, target):
 
 @cli.command()
 @click.option('-r', '--reset', is_flag=True, default=False, help='reset --hard')
+@click.option('-d', '--develop', is_flag=True, default=False, help='checkout develop && reset --hard origin/develop')
 @click.argument('args', nargs=-1, type=click.UNPROCESSED)
 @PASS_WORKING_DIRECTORY
 @timeit(print_green)
-def branches(working_directory, reset, args):
+def branches(working_directory, reset, develop, args):
     """
     Get branches infos in the local workspace
 
@@ -51,7 +52,7 @@ def branches(working_directory, reset, args):
 
         - args {[str]} -- projects name (full/partial)
     """
-    get_branches(working_directory.path, reset, args)
+    get_branches(working_directory.path, reset, develop, args)
 
 
 @cli.command()
