@@ -14,17 +14,19 @@ from ..common.colorize import print_red
 from ..common.colorize import YELLOW
 from ..common.git import get_branches_info
 from ..common.git import hard_reset
+from ..common.git import reset_to_origin_develop
 from ..common.logger import logger
 from ..common.logger import pass_logger
 
 
 @pass_logger(logger)
-def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[str]]) -> None:
+def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: Optional[List[str]]) -> None:
     """Get branches info
 
     Arguments:
         working_directory {str} -- path to the projects
         reset_mode {bool} -- reset --hard repository
+        develop_mode {bool} -- checkout develop && reset --hard origin/develop
         args {[str]} -- projects name (full/partial)
     """
     repos = []
@@ -36,6 +38,10 @@ def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[s
     if reset_mode:
         logger.warning('Reset mode enabled')
         print_red('Reset mode enabled'.upper())
+
+    if develop:
+        logger.warning('Reset develop is enabled')
+        print_red('Reset develop is enabled')
 
     if args:
         repos = list(filter(
@@ -50,6 +56,10 @@ def get_branches(working_directory: str, reset_mode: bool, args: Optional[List[s
         print_green(repo_path)
         if reset_mode:
             stdout = hard_reset(repo_path)
+            logger.warning(stdout)
+            print_red(colorize_lines(YELLOW, stdout))
+        if develop:
+            stdout = reset_to_origin_develop(repo_path)
             logger.warning(stdout)
             print_red(colorize_lines(YELLOW, stdout))
         stdout = get_branches_info(repo_path)
