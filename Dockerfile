@@ -1,5 +1,5 @@
 # See https://hub.docker.com/r/library/python/
-FROM python:3.7.2-slim-stretch
+FROM python:3.8-slim-buster
 
 LABEL Name=pautomate Version=0.0.1
 
@@ -17,11 +17,10 @@ RUN apt-get install -y apt-transport-https
 RUN apt-get update
 RUN apt-get install -y dotnet-sdk-2.2
 
-WORKDIR /.package
-ADD . /.package
+WORKDIR /package
+COPY . /package
 
-# Using pip:
-RUN python3.7 -m pip install -e .
+RUN python3 -m pip install -e .
 
 WORKDIR /ws
 ENTRYPOINT [ "pautomate" ]
