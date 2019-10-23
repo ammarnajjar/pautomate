@@ -6,30 +6,26 @@ import functools
 import logging
 import os
 from datetime import datetime
+from typing import Callable
 
 from .logjson import filelogger
 
-LOGS_DIR = '.logs'
+LOGS_DIR = "/tmp/pautomate/logs"
 
 if not os.path.isdir(os.path.join(os.getcwd(), LOGS_DIR)):
     os.mkdir(LOGS_DIR)
 
 NOW = datetime.now().strftime("%y-%m-%d_%H-%M-%S")
-LOGS_FILENAME = f'{NOW}_pautimate.log'
+LOGS_FILENAME = f"{NOW}_pautimate.log"
 logger = filelogger(
     __name__,
-    [
-        'levelname',
-        'asctime',
-        'name',
-        'lineno',
-    ],
+    ["levelname", "asctime", "name", "lineno"],
     filename=os.path.join(LOGS_DIR, LOGS_FILENAME),
     level=logging.DEBUG,
 )
 
 
-def pass_logger(logger: filelogger):
+def pass_logger(logger: Callable[[Callable], Callable]):
     """Pass Logger decorator
     When used with a function, it changes the
     name of the logger (singleton) to match
@@ -39,6 +35,7 @@ def pass_logger(logger: filelogger):
     Arguments:
         logger: {filelogger}
     """
+
     def wrapper(func):
         @functools.wraps(func)
         def inner(*args, **kwargs):
@@ -47,5 +44,7 @@ def pass_logger(logger: filelogger):
             result = func(*args, **kwargs)
             logger.name = save_logger_name
             return result
+
         return inner
+
     return wrapper
