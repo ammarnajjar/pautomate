@@ -63,7 +63,7 @@ def reset_to_origin_develop(repo_path: str) -> str:
     Arguments:
         repo_path {str} -- path to repo to reset
     """
-    shell(f'git -C {repo_path} co develop')
+    shell(f'git -C {repo_path} checkout develop')
     current_branch = shell_first(
         f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
     )
