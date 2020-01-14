@@ -16,7 +16,7 @@ from pautomate.common.printing import print_red
 from pautomate.common.printing import print_yellow
 
 
-def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: Optional[List[str]]) -> None:
+def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: Optional[List[str]]) -> None:  # noqa
     """Get branches info
 
     Arguments:
@@ -26,7 +26,7 @@ def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: 
         args {[str]} -- projects name (full/partial)
     """
     repos = []
-    for repo in glob.iglob(f'{working_directory}/**/.git', recursive=True):
+    for repo in glob.iglob(f'{working_directory}/**/**/.git', recursive=True):
         repo_path = path.abspath(path.join(repo, pardir))
         repos.append(repo_path)
 
@@ -37,11 +37,15 @@ def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: 
         print_red('Reset develop is enabled')
 
     if args:
-        repos = list(filter(
-            lambda repo: any(
-                [arg in repo for arg in args],
-            ), [path.basename(repo) for repo in repos],
-        ))
+        repos = set(
+            list(
+                filter(
+                    lambda repo: any(
+                        [arg in repo for arg in args],
+                    ), repos,
+                ),
+            ),
+        )
 
     for repo_path in repos:
         print_green(repo_path)

@@ -40,7 +40,7 @@ def cli(working_directory, target):
 
 @cli.command()
 @click.option('-r', '--reset', is_flag=True, default=False, help='reset --hard')
-@click.option('-d', '--develop', is_flag=True, default=False, help='checkout develop && reset --hard origin/develop')
+@click.option('-d', '--develop', is_flag=True, default=False, help='checkout develop && reset --hard origin/develop')  # noqa
 @click.argument('args', nargs=-1, type=click.UNPROCESSED)
 @PASS_WORKING_DIRECTORY
 @timeit(print_green)
