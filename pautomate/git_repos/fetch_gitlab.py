@@ -65,6 +65,8 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     for project in all_projects:
         url = project.get('ssh_url_to_repo')
         name = project.get('name').replace(' ', '-').replace('.', '-')
+        if '/infrastructure/' in url:
+            name = f'infrastructure/{name}'
         if '/api/' in url:
             name = f'api/{name}'
         pool.apply_async(
