@@ -14,4 +14,4 @@ toml==0.10.0
 typed-ast==1.4.1
 typing-extensions==3.7.4.1
 virtualenv==20.0.4
-zipp==2.2.0
+zipp==2.2.1
