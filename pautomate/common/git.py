@@ -20,6 +20,7 @@ def shell(command: str) -> str:
     Returns:
         str -- output of the shell
     """
+    print(command)
     cmd = shlex.split(command)
     out, err = subprocess.Popen(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -41,6 +42,7 @@ def shell_first(command: str) -> str:
     Returns:
         str -- first line of stdout
     """
+    print(command)
     cmd = shlex.split(command)
     out, _ = subprocess.Popen(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -63,7 +65,7 @@ def reset_to_origin_develop(repo_path: str) -> str:
     Arguments:
         repo_path {str} -- path to repo to reset
     """
-    shell(f'git -C {repo_path} fetch')
+    shell(f'git -C {repo_path} fetch --prune')
     shell(f'git -C {repo_path} checkout develop')
     current_branch = shell_first(
         f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
@@ -92,20 +94,22 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
     repo_path = path.join(working_directory, name)
     if path.isdir(repo_path):
         print_green(f'Fetching {name}')
-        shell_first(f'git -C {repo_path} fetch')
+        shell_first(f'git -C {repo_path} fetch --prune')
         remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
         )
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch -u origin {current_branch}:{current_branch}',
+                f'git -C {repo_path} fetch --prune -u origin {current_branch}:{current_branch}',
             )
         else:
             print_yellow(f'{current_branch} does not exist on remote')
 
         if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):
-            shell_first(f'git -C {repo_path} fetch origin develop:develop')
+            shell_first(
+                f'git -C {repo_path} fetch --prune origin develop:develop',
+            )
     else:
         print_green(f'Cloning {name}')
         shell_first(f'git clone {url} {name}')
