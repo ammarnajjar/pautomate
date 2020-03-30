@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Clone/Fetch repositories from GitLab using personal token
 """

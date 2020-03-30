@@ -1,4 +1,3 @@
-# -*- coding: utf-8 *-
 """
 Run Git commands in separate processes
 """

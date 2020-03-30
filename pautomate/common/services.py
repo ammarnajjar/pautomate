@@ -1,4 +1,3 @@
-# -*- coding: utf-8 *-
 """
 Execute dotnet projects in parallel separate processes
 """

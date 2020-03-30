@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """CLI for pautomate."""
 from os import getcwd
 

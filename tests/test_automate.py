@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """Tests for `pautomate` package."""
 import pytest
 from click.testing import CliRunner

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 *-
 """
 Get branches informations of repositories in the current directory.
 """

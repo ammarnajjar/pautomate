@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Run dotnet services in parallel via dotnet core CLI
 """
