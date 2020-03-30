@@ -41,12 +41,13 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         args {[str]} -- projects name (full/partial)
     """
     repo_path = path.join(working_directory, service_name)
+    all_pros = list(glob.iglob(f'{repo_path}/**/*.csproj', recursive=True))
     test_projects = [
-        pro for pro in glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)
+        pro for pro in all_pros
         if 'test' in pro.lower()
     ]
     runnable_projects = [
-        pro for pro in glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)
+        pro for pro in all_pros
         if 'test' not in pro.lower()
     ]
 
@@ -57,6 +58,6 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         exec_pros = runnable_projects
 
     for project in exec_pros:
-        print_green(service_name)
+        print_green(project)
         job = Process(target=run, args=(project, command, watch_mode))
         job.start()

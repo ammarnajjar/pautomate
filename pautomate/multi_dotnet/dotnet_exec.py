@@ -10,7 +10,12 @@ from pautomate.common.read import read_configs
 from pautomate.common.services import start_service
 
 
-def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Optional[List[str]]):
+def dotnet_exec(
+    working_directory: str,
+    command: str,
+    watch_mode: bool,
+    args: Optional[List[str]],
+):
     """Execute dotnet command
 
     Arguments:
@@ -34,8 +39,10 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
     try:
         for dotnet_project in dotnet_projects:
             start_service(
-                working_directory, dotnet_project,
-                command, watch_mode,
+                working_directory,
+                dotnet_project,
+                command,
+                watch_mode,
             )
     except TypeError:
         print_red('No dotnet projects were configured in ./config.json')
