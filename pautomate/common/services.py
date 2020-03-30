@@ -41,20 +41,14 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         args {[str]} -- projects name (full/partial)
     """
     repo_path = path.join(working_directory, service_name)
-    test_projects = list(
-        filter(
-            lambda pro: 'test' in pro.lower(), glob.iglob(
-                f'{repo_path}/**/*.csproj', recursive=True,
-            ),
-        ),
-    )
-    runnable_projects = list(
-        filter(
-            lambda pro: 'test' not in pro.lower(), glob.iglob(
-                f'{repo_path}/**/*.csproj', recursive=True,
-            ),
-        ),
-    )
+    test_projects = [
+        pro for pro in glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)
+        if 'test' in pro.lower()
+    ]
+    runnable_projects = [
+        pro for pro in glob.iglob(f'{repo_path}/**/*.csproj', recursive=True)
+        if 'test' not in pro.lower()
+    ]
 
     exec_pros: List[str] = []
     if command == 'test':

@@ -26,13 +26,10 @@ def dotnet_exec(working_directory: str, command: str, watch_mode: bool, args: Op
         print_yellow('Watch mode enabled')
 
     if args:
-        dotnet_projects = list(
-            filter(
-                lambda pro: any(
-                    [arg in pro for arg in args],
-                ), dotnet_projects,
-            ),
-        )
+        dotnet_projects = [
+            pro for pro in dotnet_projects
+            if any(arg in pro for arg in args)
+        ]
 
     try:
         for dotnet_project in dotnet_projects:

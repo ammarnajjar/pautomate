@@ -15,7 +15,12 @@ from pautomate.common.printing import print_red
 from pautomate.common.printing import print_yellow
 
 
-def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: Optional[List[str]]) -> None:  # noqa
+def get_branches(
+        working_directory: str,
+        reset_mode: bool,
+        develop: bool,
+        args: Optional[List[str]],
+) -> None:
     """Get branches info
 
     Arguments:
@@ -37,13 +42,8 @@ def get_branches(working_directory: str, reset_mode: bool, develop: bool, args: 
 
     if args:
         repos = set(
-            list(
-                filter(
-                    lambda repo: any(
-                        [arg in repo for arg in args],
-                    ), repos,
-                ),
-            ),
+            repo for repo in repos
+            if any(arg in repo for arg in args)
         )
 
     for repo_path in repos:

@@ -36,26 +36,20 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     all_projects = json.loads(projects.read().decode())
 
     if args:
-        all_projects = list(
-            filter(
-                lambda pro: any(
-                    [arg in pro.get('name') for arg in args],
-                ), all_projects,
-            ),
-        )
+        all_projects = [
+            pro for pro in all_projects
+            if any(arg in pro.get('name') for arg in args)
+        ]
 
     ignore_list = configs.get('ignore_list')
     if isinstance(ignore_list, List):
-        all_projects = list(
-            filter(
-                lambda pro: all(
-                    [
-                        ignored_repo not in pro.get('name')
-                        for ignored_repo in ignore_list
-                    ],
-                ), all_projects,
-            ),
-        )
+        all_projects = [
+            pro for pro in all_projects
+            if all(
+                ignored_repo not in pro.get('name')
+                for ignored_repo in ignore_list
+            )
+        ]
 
     manager = Manager()
     summery_info: Dict[str, str] = manager.dict()
