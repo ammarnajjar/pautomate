@@ -8,10 +8,6 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0']
-
-setup_requirements = ['pytest-runner']
-
 test_requirements = ['pytest']
 
 setup(
@@ -22,26 +18,24 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
     description='Automate my boring stuff.',
     entry_points={
         'console_scripts': [
-            'pautomate=pautomate.cli:cli',
-            'fetch=pautomate.cli:fetch',
-            'dnet=pautomate.cli:dotnet',
-            'branches=pautomate.cli:branches',
+            'pautomate=pautomate.main:main',
+            'fetch=pautomate.main:fetch',
+            'branches=pautomate.main:branches',
+            'dnet=pautomate.main:dotnet',
         ],
     },
-    install_requires=requirements,
     license='MIT license',
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='pautomate',
     name='pautomate',
     packages=find_packages(include=['pautomate']),
-    setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/ammarnajjar/pautomate',

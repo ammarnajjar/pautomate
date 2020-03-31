@@ -19,19 +19,19 @@ Just run::
 
  pautomate --help
 
- Usage: pautomate [OPTIONS] COMMAND [ARGS]...
+ Usage: pautomate [-h] {fetch,branches,dotnet} ...
 
-   Console interface for pautomate
+ Automate my boring stuff
 
- Options:
-   -t, --target PATH  [.] Target workspace.
-   --help             Show this message and exit.
+ positional arguments:
+   {fetch,branches,dotnet}
+     fetch               Clone/fetch projects from Gitlab using the private
+                         token
+     branches            Get branches infos in the local workspace
+     dotnet              operate on dotnet projects
 
- Commands:
-   branches    Get branches infos in the local workspace Arguments: - args...
-   dotnet      Run dotnet services in parallel via dotnet core CLI Arguments:...
-   fetch       Clone/fetch projects from Gitlab using the private token...
-
+ optional arguments:
+   -h, --help            show this help message and exit
 """"
 
 Commands:

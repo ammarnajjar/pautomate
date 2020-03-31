@@ -6,26 +6,26 @@ Subpackages
 
 .. toctree::
 
-    pautomate.common
-    pautomate.git_repos
-    pautomate.multi_dotnet
+   pautomate.common
+   pautomate.git_repos
+   pautomate.multi_dotnet
 
 Submodules
 ----------
 
-pautomate.cli module
---------------------
+pautomate.main module
+---------------------
 
-.. automodule:: pautomate.cli
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. automodule:: pautomate.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 Module contents
 ---------------
 
 .. automodule:: pautomate
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
