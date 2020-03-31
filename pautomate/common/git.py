@@ -99,7 +99,7 @@ def fetch_repo(
     if path.isdir(repo_path):
         print_green(f'Fetching {name}')
         shell_first(f'git -C {repo_path} fetch --prune')
-        remote_banches = shell_first(f'git -C {repo_path} ls-remote --heads')
+        remote_banches = shell(f'git -C {repo_path} ls-remote --heads')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
         )
