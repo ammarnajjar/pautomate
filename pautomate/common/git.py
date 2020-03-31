@@ -105,7 +105,7 @@ def fetch_repo(
         )
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch --prune -u'
+                f'git -C {repo_path} fetch --prune -u '
                 f'origin {current_branch}:{current_branch}',
             )
         else:
