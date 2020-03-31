@@ -1,7 +1,7 @@
 # See https://hub.docker.com/r/library/python/
 FROM python:3.8-slim-buster
 
-LABEL Name=pautomate Version=0.0.1
+LABEL Name=pautomate Version=0.1.1
 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

@@ -38,7 +38,7 @@ Automate my boring stuff.
 Features
 --------
 
-* Uses click_ under the hood.
+* No runtime dependencies.
 * Fetch repos from Gitlab using a personal token.
 * Clone the repos if they don't exist.
 * Get branches info of repos in a specific directory.
@@ -54,4 +54,3 @@ the `audreyr/cookiecutter-pypackage`_ project template.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-.. _click: https://github.com/pallets/click

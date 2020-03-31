@@ -1,4 +1,3 @@
-# -*- coding: utf-8 *-
 """
 Execute dotnet projects in parallel separate processes
 """
@@ -32,7 +31,12 @@ def run(project: str, command_type: str, watch_mode: bool):
     process.communicate(input=None)
 
 
-def start_service(working_directory: str, service_name: str, command: str, watch_mode: bool):
+def start_service(
+    working_directory: str,
+    service_name: str,
+    command: str,
+    watch_mode: bool,
+) -> None:
     """Start process container
 
     Arguments:
@@ -42,20 +46,15 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         args {[str]} -- projects name (full/partial)
     """
     repo_path = path.join(working_directory, service_name)
-    test_projects = list(
-        filter(
-            lambda pro: 'test' in pro.lower(), glob.iglob(
-                f'{repo_path}/**/*.csproj', recursive=True,
-            ),
-        ),
-    )
-    runnable_projects = list(
-        filter(
-            lambda pro: 'test' not in pro.lower(), glob.iglob(
-                f'{repo_path}/**/*.csproj', recursive=True,
-            ),
-        ),
-    )
+    all_pros = list(glob.iglob(f'{repo_path}/**/*.csproj', recursive=True))
+    test_projects = [
+        pro for pro in all_pros
+        if 'test' in pro.lower()
+    ]
+    runnable_projects = [
+        pro for pro in all_pros
+        if 'test' not in pro.lower()
+    ]
 
     exec_pros: List[str] = []
     if command == 'test':
@@ -64,6 +63,6 @@ def start_service(working_directory: str, service_name: str, command: str, watch
         exec_pros = runnable_projects
 
     for project in exec_pros:
-        print_green(service_name)
+        print_green(project)
         job = Process(target=run, args=(project, command, watch_mode))
         job.start()
