@@ -2,9 +2,9 @@
 Pautomate
 =========
 
-
-.. image:: https://img.shields.io/travis/ammarnajjar/pautomate.svg
-        :target: https://travis-ci.org/ammarnajjar/pautomate
+.. image:: https://github.com/ammarnajjar/pautomate/workflows/push/badge.svg
+     :target: https://github.com/ammarnajjar/pautomate/actions
+     :alt: CI
 
 
 .. image:: https://pyup.io/repos/github/ammarnajjar/pautomate/shield.svg
