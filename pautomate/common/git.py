@@ -81,7 +81,12 @@ def get_branches_info(repo_path: str) -> str:
     return shell(f'git -C {repo_path} branch -a')
 
 
-def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[str, str]) -> None:
+def fetch_repo(
+    working_directory: str,
+    name: str,
+    url: str,
+    summery_info: Dict[str, str],
+) -> None:
     """Clone / Fetch repo
 
     Arguments:
@@ -100,12 +105,13 @@ def fetch_repo(working_directory: str, name: str, url: str, summery_info: Dict[s
         )
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch --prune -u origin {current_branch}:{current_branch}',
+                f'git -C {repo_path} fetch --prune -u'
+                f'origin {current_branch}:{current_branch}',
             )
         else:
             print_yellow(f'{current_branch} does not exist on remote')
 
-        if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):
+        if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):  # noqa E501
             shell_first(
                 f'git -C {repo_path} fetch --prune origin develop:develop',
             )

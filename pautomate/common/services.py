@@ -31,7 +31,12 @@ def run(project: str, command_type: str, watch_mode: bool):
     process.communicate(input=None)
 
 
-def start_service(working_directory: str, service_name: str, command: str, watch_mode: bool):
+def start_service(
+    working_directory: str,
+    service_name: str,
+    command: str,
+    watch_mode: bool,
+) -> None:
     """Start process container
 
     Arguments:
