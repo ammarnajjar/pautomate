@@ -38,7 +38,7 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     if args:
         all_projects = [
             pro for pro in all_projects
-            if any(arg in pro.get('name') for arg in args)
+            if any(arg in pro.get('path_with_namespace') for arg in args)
         ]
 
     ignore_list = configs.get('ignore_list')
@@ -46,7 +46,7 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
         all_projects = [
             pro for pro in all_projects
             if all(
-                ignored_repo not in pro.get('name')
+                ignored_repo not in pro.get('path_with_namespace')
                 for ignored_repo in ignore_list
             )
         ]
@@ -57,14 +57,11 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     pool = Pool(processes=8)
     for project in all_projects:
         url = project.get('ssh_url_to_repo')
-        name = project.get('name').replace(' ', '-').replace('.', '-')
-        if '/infrastructure/' in url:
-            name = f'infrastructure/{name}'
-        if '/api/' in url:
-            name = f'api/{name}'
+        repo_path = project.get('path_with_namespace')
+        repo_path = repo_path.replace(' ', '-').replace('.', '-')
         pool.apply_async(
             fetch_repo, args=(
-                working_directoy, name, url, summery_info,
+                working_directoy, repo_path, url, summery_info,
             ),
         )
     pool.close()

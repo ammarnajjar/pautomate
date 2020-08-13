@@ -83,7 +83,7 @@ def get_branches_info(repo_path: str) -> str:
 
 def fetch_repo(
     working_directory: str,
-    name: str,
+    repo_path: str,
     url: str,
     summery_info: Dict[str, str],
 ) -> None:
@@ -91,13 +91,13 @@ def fetch_repo(
 
     Arguments:
         working_directory {str} -- target directory
-        name {str} -- repo name
+        repo_path {str} -- repo repo_path
         url {str} -- repo url in gitlab
         summery_info {Dict[str, str]} -- the result of the cloning/fetching
     """
-    repo_path = path.join(working_directory, name)
+    repo_path = path.join(working_directory, repo_path)
     if path.isdir(repo_path):
-        print_green(f'Fetching {name}')
+        print_green(f'Fetching {repo_path}')
         shell_first(f'git -C {repo_path} fetch --prune')
         remote_banches = shell(f'git -C {repo_path} ls-remote --heads')
         current_branch = shell_first(
@@ -116,9 +116,9 @@ def fetch_repo(
                 f'git -C {repo_path} fetch --prune origin develop:develop',
             )
     else:
-        print_green(f'Cloning {name}')
-        shell_first(f'git clone {url} {name}')
+        print_green(f'Cloning {repo_path}')
+        shell_first(f'git clone {url} {repo_path}')
         current_branch = shell_first(
             f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
         )
-    summery_info.update({name: current_branch})
+    summery_info.update({repo_path: current_branch})
