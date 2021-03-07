@@ -145,7 +145,7 @@ def dotnet():
     )
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Optional[Sequence[str]] = None) -> None:
     argv = argv if argv is not None else sys.argv[1:]
     parser = argparse.ArgumentParser(description='Automate my boring stuff')
     subparsers = parser.add_subparsers(dest='cmd')
