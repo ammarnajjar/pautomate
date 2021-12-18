@@ -81,6 +81,20 @@ def get_branches_info(repo_path: str) -> str:
     return shell(f'git -C {repo_path} branch -a')
 
 
+def get_lastest_stable_release(repo_path: str) -> str:
+    tag_cmd = f'git -C {repo_path} tag --sort=-taggerdate'
+    cmd = shlex.split(tag_cmd)
+    tag_ps = subprocess.Popen( cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    grep_cmd = 'grep -v "[a-zA-Z]"' # exclude any version having a letter in it (v.., beta, alpha, etc)
+    cmd = shlex.split(grep_cmd)
+    grep_ps = subprocess.Popen(cmd, stdin=tag_ps.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    tail_cmd = 'tail -1'
+    cmd = shlex.split(tail_cmd)
+    tail_ps = subprocess.Popen(cmd, stdin=grep_ps.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    tag_ps.stdout.close()
+    return tail_ps.communicate()[0].decode('utf-8').strip()
+
+
 def fetch_repo(
     working_directory: str,
     repo_path: str,

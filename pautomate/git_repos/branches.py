@@ -1,12 +1,10 @@
 """
 Get branches informations of repositories in the current directory.
 """
-import glob
-from os import pardir
-from os import path
 from typing import List
 from typing import Optional
 
+from pautomate.common.get_repos import get_repos, filter_repos
 from pautomate.common.git import get_branches_info
 from pautomate.common.git import hard_reset
 from pautomate.common.git import reset_to_origin_develop
@@ -29,10 +27,7 @@ def get_branches(
         develop_mode {bool} -- checkout develop && reset --hard origin/develop
         args {[str]} -- projects name (full/partial)
     """
-    repos = []
-    for repo in glob.iglob(f'{working_directory}/**/**/.git', recursive=True):
-        repo_path = path.abspath(path.join(repo, pardir))
-        repos.append(repo_path)
+    repos = get_repos(working_directory)
 
     if reset_mode:
         print_red('Reset mode is enabled')
@@ -41,10 +36,7 @@ def get_branches(
         print_red('Reset develop is enabled')
 
     if args:
-        repos = set(
-            repo for repo in repos
-            if any(arg in repo for arg in args)
-        )
+        repos = filter_repos(args)
 
     for repo_path in repos:
         print_green(repo_path)

@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'pautomate=pautomate.main:main',
             'fetch=pautomate.main:fetch',
+            'releases=pautomate.main:releases',
             'branches=pautomate.main:branches',
             'dnet=pautomate.main:dotnet',
         ],

@@ -7,6 +7,7 @@ from typing import Sequence
 
 from pautomate.common.printing import print_green
 from pautomate.common.timeit import timeit
+from pautomate.git_repos.releases import get_releases
 from pautomate.git_repos.branches import get_branches
 from pautomate.git_repos.fetch_gitlab import fetch_gitlab
 from pautomate.multi_dotnet.dotnet_exec import dotnet_exec
@@ -66,6 +67,28 @@ def _add_pros_option(parser: argparse.ArgumentParser) -> None:
         nargs='*',
         default=None,
         help='project names to filter',
+    )
+
+
+@timeit(print_green)
+def releases():
+    """
+    Get latest stable releases in the local workspace
+
+    Arguments:
+
+        - pros {[str]} -- projects name (full/partial)
+    """
+    parser = argparse.ArgumentParser(
+        description='Get lastest stable releases in the local workspace',
+    )
+    _add_target_option(parser)
+    _add_pros_option(parser)
+
+    _args = parser.parse_args()
+    return get_releases(
+        _args.target,
+        _args.pros,
     )
 
 
@@ -157,6 +180,13 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
     _add_target_option(fetch_parser)
     _add_pros_option(fetch_parser)
 
+    releases_parser = subparsers.add_parser(
+        'releases',
+        help='Get lastest stable releases in the local workspace',
+    )
+    _add_target_option(branches_parser)
+    _add_pros_option(branches_parser)
+
     branches_parser = subparsers.add_parser(
         'branches',
         help='Get branches infos in the local workspace',
@@ -178,6 +208,11 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
     main_args = parser.parse_args(argv)
     if main_args.cmd == 'fetch':
         return fetch_gitlab(main_args.target, args=main_args.pros)
+    elif main_args.cmd == 'releases':
+        return get_releases(
+            main_args.target,
+            main_args.pros,
+        )
     elif main_args.cmd == 'branches':
         return get_branches(
             main_args.target,
