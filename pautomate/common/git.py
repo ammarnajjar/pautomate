@@ -80,9 +80,9 @@ def get_branches_info(repo_path: str) -> str:
 
 
 def get_lastest_stable_release(repo_path: str) -> str:
-    cmd = f'git -C {repo_path} fetch --all --tags'
+    cmd = f'git -C {repo_path} fetch --tags'
     shell_first(cmd)
-    tag_cmd = f'git -C {repo_path} tag --sort=-taggerdate'
+    tag_cmd = f'git -C {repo_path} tag --sort=version:refname'
     cmd = shlex.split(tag_cmd)
     tag_ps = subprocess.Popen( cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     grep_cmd = 'grep -v "[a-zA-Z]"' # exclude any version having a letter in it (v.., beta, alpha, etc)

@@ -29,5 +29,7 @@ def get_releases(
         repos = filter_repos(repos, args)
 
     for repo_path in repos:
-        print(f'{basename(repo_path)}: {get_lastest_stable_release(repo_path)}')
+        latest_stable_release = get_lastest_stable_release(repo_path)
+        if latest_stable_release != '':
+            print(f'{basename(repo_path)}: {latest_stable_release}')
 
