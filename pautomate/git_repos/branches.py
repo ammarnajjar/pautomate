@@ -4,7 +4,8 @@ Get branches informations of repositories in the current directory.
 from typing import List
 from typing import Optional
 
-from pautomate.common.get_repos import get_repos, filter_repos
+from pautomate.common.get_repos import filter_repos
+from pautomate.common.get_repos import get_repos
 from pautomate.common.git import get_branches_info
 from pautomate.common.git import hard_reset
 from pautomate.common.git import reset_to_origin_develop

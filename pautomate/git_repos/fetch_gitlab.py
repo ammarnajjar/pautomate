@@ -9,12 +9,13 @@ from multiprocessing import Pool
 from typing import Dict
 from typing import List
 from typing import Optional
-from urllib.request import urlopen
 from urllib.error import URLError
+from urllib.request import urlopen
+
 from pautomate.common.git import fetch_repo
 from pautomate.common.printing import print_green
-from pautomate.common.printing import print_yellow
 from pautomate.common.printing import print_red
+from pautomate.common.printing import print_yellow
 from pautomate.common.read import read_configs
 
 
@@ -30,11 +31,13 @@ def cache_repos(all_projects: List[str]) -> None:
         pass
     with open(repos_file, 'x') as fi:
         for project in all_projects:
-            repo_path = project.get('path_with_namespace').replace(' ', '-').replace('.', '-')
+            repo_path = project.get('path_with_namespace').replace(
+                ' ', '-',
+            ).replace('.', '-')
             fi.write(f'{repo_path}\n')
 
 
-def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]])-> List[str]:
+def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]]) -> List[str]:
     configs = read_configs(working_directoy)
     gitlab_url = configs.get('gitlab_url')
     gitlab_token = configs.get('gitlab_token')
@@ -68,6 +71,7 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]])-> Li
             )
         ]
     return all_projects
+
 
 def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     """Clone/Fetch from GitLab

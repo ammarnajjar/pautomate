@@ -2,15 +2,12 @@
 Get latest stable release of repositories in the current directory.
 """
 from os.path import basename
-
 from typing import List
 from typing import Optional
 
-from pautomate.common.get_repos import get_repos, filter_repos
+from pautomate.common.get_repos import filter_repos
+from pautomate.common.get_repos import get_repos
 from pautomate.common.git import get_lastest_stable_release
-from pautomate.common.printing import print_green
-from pautomate.common.printing import print_red
-from pautomate.common.printing import print_yellow
 
 
 def get_releases(
@@ -32,4 +29,3 @@ def get_releases(
         latest_stable_release = get_lastest_stable_release(repo_path)
         if latest_stable_release != '':
             print(f'{basename(repo_path)}: {latest_stable_release}')
-

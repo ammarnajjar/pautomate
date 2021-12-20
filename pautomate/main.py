@@ -7,9 +7,9 @@ from typing import Sequence
 
 from pautomate.common.printing import print_green
 from pautomate.common.timeit import timeit
-from pautomate.git_repos.releases import get_releases
 from pautomate.git_repos.branches import get_branches
 from pautomate.git_repos.fetch_gitlab import fetch_gitlab
+from pautomate.git_repos.releases import get_releases
 from pautomate.multi_dotnet.dotnet_exec import dotnet_exec
 
 
@@ -184,8 +184,8 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         'releases',
         help='Get lastest stable releases in the local workspace',
     )
-    _add_target_option(branches_parser)
-    _add_pros_option(branches_parser)
+    _add_target_option(releases_parser)
+    _add_pros_option(releases_parser)
 
     branches_parser = subparsers.add_parser(
         'branches',
