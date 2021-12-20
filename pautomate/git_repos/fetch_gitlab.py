@@ -2,6 +2,7 @@
 Clone/Fetch repositories from GitLab using personal token
 """
 import json
+import os
 import sys
 from multiprocessing import Manager
 from multiprocessing import Pool
@@ -16,13 +17,24 @@ from pautomate.common.printing import print_yellow
 from pautomate.common.read import read_configs
 
 
-def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
-    """Clone/Fetch from GitLab
+def cache_repos(all_projects: List[str]) -> None:
+    print('caching repos on disk');
+    repos_file = 'repos'
+    try:
+        os.remove(f'{repos_file}_bk')
+    except(FileNotFoundError):
+        pass
+    try:
+        os.rename(repos_file, f'{repos_file}_bk')
+    except(FileNotFoundError):
+        pass
+    with open(repos_file, 'x') as fi:
+        for project in all_projects:
+            repo_path = project.get('path_with_namespace').replace(' ', '-').replace('.', '-')
+            fi.write(f'{repo_path}\n')
 
-    Arguments:
-        working_directoy {str} -- target workspace
-        args {[str]} -- projects name (full/partial)
-    """
+
+def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]])-> List[str]:
     configs = read_configs(working_directoy)
     gitlab_url = configs.get('gitlab_url')
     gitlab_token = configs.get('gitlab_token')
@@ -50,6 +62,17 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
                 for ignored_repo in ignore_list
             )
         ]
+    return all_projects
+
+def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
+    """Clone/Fetch from GitLab
+
+    Arguments:
+        working_directoy {str} -- target workspace
+        args {[str]} -- projects name (full/partial)
+    """
+    all_projects = get_repos_from_gitlab(working_directoy, args)
+    cache_repos(all_projects)
 
     manager = Manager()
     summery_info: Dict[str, str] = manager.dict()
