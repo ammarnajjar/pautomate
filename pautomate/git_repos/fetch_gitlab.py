@@ -10,10 +10,11 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from urllib.request import urlopen
-
+from urllib.error import URLError
 from pautomate.common.git import fetch_repo
 from pautomate.common.printing import print_green
 from pautomate.common.printing import print_yellow
+from pautomate.common.printing import print_red
 from pautomate.common.read import read_configs
 
 
@@ -42,9 +43,13 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]])-> Li
         print('Please provide gitlab configs in your config.json')
         sys.exit(1)
 
-    projects = urlopen(
-        f'https://{gitlab_url}/api/v4/projects?membership=1&order_by=path&per_page=1000&private_token={gitlab_token}',  # noqa
-    )
+    try:
+        projects = urlopen(
+            f'https://{gitlab_url}/api/v4/projects?membership=1&order_by=path&per_page=1000&private_token={gitlab_token}',  # noqa
+        )
+    except(URLError):
+        print_red('No route to gitlab, check your internet/VPN connection')
+        exit(1)
     all_projects = json.loads(projects.read().decode())
 
     if args:
@@ -62,6 +67,7 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]])-> Li
                 for ignored_repo in ignore_list
             )
         ]
+    print(all_projects)
     return all_projects
 
 def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:

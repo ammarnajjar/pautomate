@@ -19,7 +19,6 @@ def shell(command: str) -> str:
     Returns:
         str -- output of the shell
     """
-    print(command)
     cmd = shlex.split(command)
     out, err = subprocess.Popen(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -41,7 +40,6 @@ def shell_first(command: str) -> str:
     Returns:
         str -- first line of stdout
     """
-    print(command)
     cmd = shlex.split(command)
     out, _ = subprocess.Popen(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -82,6 +80,8 @@ def get_branches_info(repo_path: str) -> str:
 
 
 def get_lastest_stable_release(repo_path: str) -> str:
+    cmd = f'git -C {repo_path} fetch --all --tags'
+    shell_first(cmd)
     tag_cmd = f'git -C {repo_path} tag --sort=-taggerdate'
     cmd = shlex.split(tag_cmd)
     tag_ps = subprocess.Popen( cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
