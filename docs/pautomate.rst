@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    pautomate.common
    pautomate.git_repos
@@ -20,7 +21,6 @@ pautomate.main module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------
