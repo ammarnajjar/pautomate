@@ -4,7 +4,7 @@ Get branches informations of repositories in the current directory.
 from typing import List
 from typing import Optional
 
-from pautomate.common.get_repos import filter_repos
+from pautomate.common.get_repos import filter
 from pautomate.common.get_repos import get_repos
 from pautomate.common.git import get_branches_info
 from pautomate.common.git import hard_reset
@@ -37,7 +37,7 @@ def get_branches(
         print_red('Reset develop is enabled')
 
     if args:
-        repos = filter_repos(args)
+        repos = filter(args)
 
     for repo_path in repos:
         print_green(repo_path)

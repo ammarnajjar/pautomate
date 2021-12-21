@@ -9,7 +9,7 @@ from typing import Set
 
 
 def get_repos(working_directory: str) -> List[str]:
-    """get repos if already cached, else search recursivly
+    """get repos if already cached, else search recursivly in the directory
 
     Arguments:
         working_directoy {str} -- target workspace
@@ -25,8 +25,14 @@ def get_repos(working_directory: str) -> List[str]:
         ]
 
 
-def filter_repos(repos: List[str], filter: str) -> Set[str]:
+def filter(source: List[str], filter: str) -> Set[str]:
+    """filter list items to contain fully or paritally specific text
+
+    Arguments:
+        source {List[str]} -- list to be filtered
+        filter {str} -- the string for items to contain
+    """
     return set(
-        repo for repo in repos
-        if any(arg in repo for arg in filter)
+        item for item in source
+        if any(f in item for f in filter)
     )

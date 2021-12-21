@@ -19,19 +19,20 @@ Just run::
 
  pautomate --help
 
- Usage: pautomate [-h] {fetch,branches,dotnet} ...
+ usage: pautomate [-h] {fetch,releases,branches,dotnet} ...
 
  Automate my boring stuff
 
  positional arguments:
-   {fetch,branches,dotnet}
-     fetch               Clone/fetch projects from Gitlab using the private
-                         token
+   {fetch,releases,branches,dotnet}
+     fetch               Clone/fetch projects from Gitlab using the private token
+     releases            Get lastest stable releases in the local workspace
      branches            Get branches infos in the local workspace
      dotnet              operate on dotnet projects
 
- optional arguments:
+ options:
    -h, --help            show this help message and exit
+
 """"
 
 Commands:
@@ -80,6 +81,7 @@ The structure of `config.json` should be like::
  {
     "gitlab_url": "e.g.: gitlab.com",
     "gitlab_token": "e.g: kjhasd8123hasdz123",
+	"gitlab_group_id" : "e.g: 41",
     "ignore_list": ["test", "example"],
  }
 
@@ -98,9 +100,30 @@ To pass a white list pattern::
 
  pautomate fetch py demo    # fetch/clone only what has "py" or "demo" in its name
 
+The list of fetched repositories will be stored on disk in a file called `repos`.
+This file will be used if exists to gather informations about the repositories
+instead of calling the gitlab API, which saves some time.
+
 More info can be found using the help command::
 
  pautomate fetch --help
+
+- **releases**:
+
+Checks for the repositories fetched before, and shows the latest stable release.
+
+To fetch repositories::
+
+ pautomate releases
+
+To pass a white list pattern::
+
+ pautomate releases api client    # releases for only what has "api" or "client" in its path
+
+More info can be found using the help command::
+
+ pautomate releases --help
+
 
 - **dotnet**:
 
@@ -135,6 +158,7 @@ There is an extra entry point supported for each command, to make it faster to g
 
  pautomate fetch    -> fetch
  pautomate branches -> branches
+ pautomate releases -> releases
  pautomate dotnet   -> dnet
 
 
@@ -153,6 +177,7 @@ To run using docker:
    docker run --rm -v $(pwd):/ws:rw -it pautomate dotnet --help
    docker run --rm -v $(pwd):/ws:rw -it pautomate fetch --help
    docker run --rm -v $(pwd):/ws:rw -it pautomate branches --help
+   docker run --rm -v $(pwd):/ws:rw -it pautomate releases --help
 
 
 .. _documentation: target https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html

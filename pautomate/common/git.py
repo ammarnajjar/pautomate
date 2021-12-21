@@ -80,6 +80,12 @@ def get_branches_info(repo_path: str) -> str:
 
 
 def get_lastest_stable_release(repo_path: str) -> str:
+    """git fetch --tags
+       git tag --sort=version:refname |grep -v "[a-zA-Z]" |tail -1
+
+    Arguments:
+        repo_path {str} -- path to repo
+    """
     cmd = f'git -C {repo_path} fetch --tags'
     shell_first(cmd)
     tag_cmd = f'git -C {repo_path} tag --sort=version:refname'

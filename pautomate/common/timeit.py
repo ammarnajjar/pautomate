@@ -18,7 +18,7 @@ def timeit(print_func):
             result = func(*args, **kwargs)
             end = time.time()
             time_elapsed = end - start
-            print_func(f'Time needed = {time_elapsed:.2f} seconds.')
+            print_func(f'done in {time_elapsed:.2f} seconds.')
             return result
         return inner
     return wrapper

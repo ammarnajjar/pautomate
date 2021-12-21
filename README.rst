@@ -38,13 +38,16 @@ Automate my boring stuff.
 Features
 --------
 
-* No runtime dependencies.
-* Fetch repos from Gitlab using a personal token.
-* Clone the repos if they don't exist.
-* Get branches info of repos in a specific directory.
+* Fetch repositories from Gitlab using a personal token.
+* Clone the repositories if they don't exist.
+* Get branches info of repositories in a specific directory.
 * Reset --hard branches with a flag (-r)
+* Get the latest stable releases of multiple repositories.
 * Run multiple dotnet core commands on different projects in parallel.
 * The dotnet command type can be passed as an argument.
+* Requires:
+  * git
+  * python
 
 Credits
 -------
