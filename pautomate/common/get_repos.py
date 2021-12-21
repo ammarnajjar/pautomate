@@ -25,14 +25,14 @@ def get_repos(working_directory: str) -> List[str]:
         ]
 
 
-def filter(source: List[str], filter: str) -> Set[str]:
+def filter_list(source: List[str], filter_args: str) -> Set[str]:
     """filter list items to contain fully or paritally specific text
 
     Arguments:
         source {List[str]} -- list to be filtered
-        filter {str} -- the string for items to contain
+        filter_args {str} -- the string for items to contain
     """
     return set(
         item for item in source
-        if any(f in item for f in filter)
+        if any(arg in item for arg in filter_args)
     )
