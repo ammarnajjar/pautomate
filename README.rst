@@ -46,8 +46,8 @@ Features
 * Run multiple dotnet core commands on different projects in parallel.
 * The dotnet command type can be passed as an argument.
 * Requires:
-  * git
-  * python
+    * git
+    * python
 
 Credits
 -------
