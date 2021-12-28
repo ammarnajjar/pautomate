@@ -3,7 +3,7 @@ Get latest stable release of repositories in the current directory.
 """
 from multiprocessing import Manager
 from multiprocessing import Pool
-from os.path import basename
+from typing import Dict
 from typing import List
 from typing import Optional
 
@@ -40,4 +40,3 @@ def get_releases(
 
     for repo_name, release in summery_info.items():
         print(f'{repo_name}: {release}')
-

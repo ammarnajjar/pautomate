@@ -3,7 +3,9 @@ Run Git commands in separate processes
 """
 import shlex
 import subprocess
-from os.path import isdir, basename, join
+from os.path import basename
+from os.path import isdir
+from os.path import join
 from typing import Dict
 
 from .printing import print_green
