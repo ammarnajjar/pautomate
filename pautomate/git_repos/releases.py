@@ -1,6 +1,8 @@
 """
 Get latest stable release of repositories in the current directory.
 """
+from multiprocessing import Manager
+from multiprocessing import Pool
 from os.path import basename
 from typing import List
 from typing import Optional
@@ -25,7 +27,17 @@ def get_releases(
     if filter_args:
         repos = filter_list(repos, filter_args)
 
+    manager = Manager()
+    summery_info: Dict[str, str] = manager.dict()
+
+    pool = Pool(processes=8)
     for repo_path in repos:
-        latest_stable_release = get_lastest_stable_release(repo_path)
-        if latest_stable_release != '':
-            print(f'{basename(repo_path)}: {latest_stable_release}')
+        pool.apply_async(
+            get_lastest_stable_release, args=(repo_path, summery_info),
+        )
+    pool.close()
+    pool.join()
+
+    for repo_name, release in summery_info.items():
+        print(f'{repo_name}: {release}')
+

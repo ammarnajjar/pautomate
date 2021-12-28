@@ -3,7 +3,7 @@ Run Git commands in separate processes
 """
 import shlex
 import subprocess
-from os import path
+from os.path import isdir, basename, join
 from typing import Dict
 
 from .printing import print_green
@@ -79,12 +79,13 @@ def get_branches_info(repo_path: str) -> str:
     return shell(f'git -C {repo_path} branch -a')
 
 
-def get_lastest_stable_release(repo_path: str) -> str:
+def get_lastest_stable_release(repo_path: str, summery_info: Dict[str, str]) -> None:
     """git fetch --tags
        git tag --sort=version:refname |grep -v "[a-zA-Z]" |tail -1
 
     Arguments:
         repo_path {str} -- path to repo
+        summery_info {Dict[str, str]} -- the result of the repo: release
     """
     cmd = f'git -C {repo_path} fetch --tags'
     shell_first(cmd)
@@ -94,7 +95,8 @@ def get_lastest_stable_release(repo_path: str) -> str:
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     # exclude any version having a letter in it (v.., beta, alpha, etc)
-    grep_cmd = 'grep -v "[a-zA-Z]"'
+    # if rg not installed, use grep here instead
+    grep_cmd = 'rg -v "[a-zA-Z]"'
     cmd = shlex.split(grep_cmd)
     grep_ps = subprocess.Popen(
         cmd, stdin=tag_ps.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -105,7 +107,9 @@ def get_lastest_stable_release(repo_path: str) -> str:
         cmd, stdin=grep_ps.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     tag_ps.stdout.close()
-    return tail_ps.communicate()[0].decode('utf-8').strip()
+    latest_stable_release = tail_ps.communicate()[0].decode('utf-8').strip()
+    if latest_stable_release != '':
+        summery_info.update({basename(repo_path): latest_stable_release})
 
 
 def fetch_repo(
@@ -122,8 +126,8 @@ def fetch_repo(
         url {str} -- repo url in gitlab
         summery_info {Dict[str, str]} -- the result of the cloning/fetching
     """
-    repo_path = path.join(working_directory, repo_path)
-    if path.isdir(repo_path):
+    repo_path = join(working_directory, repo_path)
+    if isdir(repo_path):
         print_green(f'Fetching {repo_path}')
         shell_first(f'git -C {repo_path} fetch --prune')
         remote_banches = shell(f'git -C {repo_path} ls-remote --heads')
