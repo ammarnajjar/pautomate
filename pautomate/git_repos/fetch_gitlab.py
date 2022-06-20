@@ -86,7 +86,7 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     manager = Manager()
     summery_info: Dict[str, str] = manager.dict()
 
-    pool = Pool(processes=8)
+    pool = Pool(processes=1)
     for project in all_projects:
         url = project.get('ssh_url_to_repo')
         repo_path = project.get('path_with_namespace')

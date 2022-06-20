@@ -30,7 +30,7 @@ def get_releases(
     manager = Manager()
     summery_info: Dict[str, str] = manager.dict()
 
-    pool = Pool(processes=8)
+    pool = Pool(processes=1)
     for repo_path in repos:
         pool.apply_async(
             get_lastest_stable_release, args=(repo_path, summery_info),
