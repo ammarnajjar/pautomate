@@ -41,19 +41,21 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]]) -> L
     configs = read_configs(working_directoy)
     gitlab_url = configs.get('gitlab_url')
     gitlab_token = configs.get('gitlab_token')
-    gitlab_group_id = configs.get('gitlab_group_id')
+    gitlab_group_ids = configs.get('gitlab_group_ids')
     if not(gitlab_url and gitlab_token):
         print('Please provide gitlab configs in your config.json')
         sys.exit(1)
 
-    try:
-        projects = urlopen(
-            f'https://{gitlab_url}/api/v4/groups/{gitlab_group_id}/projects?include_subgroups=true&pagination=keyset&per_page=100000&order_by=id&sort=asc&private_token={gitlab_token}',  # noqa
-        )
-    except(URLError):
-        print_red('No route to gitlab, check your internet/VPN connection')
-        sys.exit(1)
-    all_projects = json.loads(projects.read().decode())
+    all_projects = []
+    for gitlab_group_id in gitlab_group_ids:
+        try:
+            projects = urlopen(
+                f'https://{gitlab_url}/api/v4/groups/{gitlab_group_id}/projects?include_subgroups=true&pagination=keyset&per_page=100000&order_by=id&sort=asc&private_token={gitlab_token}',  # noqa
+            )
+        except(URLError):
+            print_red('No route to gitlab, check your internet/VPN connection')
+            sys.exit(1)
+        all_projects += json.loads(projects.read().decode())
 
     if args:
         all_projects = [
@@ -103,3 +105,4 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     print_green('Summery:')
     for repo_name, current_branch in summery_info.items():
         print_yellow(f'{repo_name} => {current_branch}')
+
