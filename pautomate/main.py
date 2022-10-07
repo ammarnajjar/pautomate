@@ -10,7 +10,6 @@ from pautomate.common.timeit import timeit
 from pautomate.git_repos.branches import get_branches
 from pautomate.git_repos.fetch_gitlab import fetch_gitlab
 from pautomate.git_repos.releases import get_releases
-from pautomate.multi_dotnet.dotnet_exec import dotnet_exec
 
 
 def _add_target_option(parser: argparse.ArgumentParser) -> None:
@@ -49,15 +48,6 @@ def _add_watch_flag(parser: argparse.ArgumentParser) -> None:
         help='watch for changes',
     )
 
-
-def _add_command_option(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument(
-        'command',
-        metavar='command',
-        nargs=1,
-        choices=['run', 'test', 'restore', 'build', 'clean'],
-        help='dotnet command',
-    )
 
 
 def _add_pros_option(parser: argparse.ArgumentParser) -> None:
@@ -141,33 +131,6 @@ def fetch():
     return fetch_gitlab(_args.target, _args.pros)
 
 
-def dotnet():
-    """
-    Run dotnet services in parallel via dotnet core CLI
-
-    Arguments:
-
-        - command {str} -- [run, test, restore, build, clean]
-
-        - args {[str]} -- projects name (full/partial)
-    """
-    parser = argparse.ArgumentParser(
-        description='Clone/fetch projects from Gitlab using the private token',
-    )
-    _add_target_option(parser)
-    _add_watch_flag(parser)
-    _add_command_option(parser)
-    _add_pros_option(parser)
-
-    _args = parser.parse_args()
-    dotnet_exec(
-        _args.target,
-        _args.command[0],
-        _args.watch,
-        _args.pros,
-    )
-
-
 def main(argv: Optional[Sequence[str]] = None) -> None:
     argv = argv if argv is not None else sys.argv[1:]
     parser = argparse.ArgumentParser(description='Automate my boring stuff')
@@ -196,15 +159,6 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
     _add_develop_flag(branches_parser)
     _add_pros_option(branches_parser)
 
-    dotnet_parser = subparsers.add_parser(
-        'dotnet',
-        help='operate on dotnet projects',
-    )
-    _add_target_option(dotnet_parser)
-    _add_watch_flag(dotnet_parser)
-    _add_command_option(dotnet_parser)
-    _add_pros_option(dotnet_parser)
-
     main_args = parser.parse_args(argv)
     if main_args.cmd == 'fetch':
         return fetch_gitlab(main_args.target, args=main_args.pros)
@@ -218,13 +172,6 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
             main_args.target,
             main_args.reset,
             main_args.develop,
-            main_args.pros,
-        )
-    elif main_args.cmd == 'dotnet':
-        return dotnet_exec(
-            main_args.target,
-            main_args.command[0],
-            main_args.watch,
             main_args.pros,
         )
 

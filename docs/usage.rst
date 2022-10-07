@@ -19,16 +19,15 @@ Just run::
 
  pautomate --help
 
- usage: pautomate [-h] {fetch,releases,branches,dotnet} ...
+ usage: pautomate [-h] {fetch,releases,branches} ...
 
  Automate my boring stuff
 
  positional arguments:
-   {fetch,releases,branches,dotnet}
+   {fetch,releases,branches}
      fetch               Clone/fetch projects from Gitlab using the private token
      releases            Get lastest stable releases in the local workspace
      branches            Get branches infos in the local workspace
-     dotnet              operate on dotnet projects
 
  options:
    -h, --help            show this help message and exit
@@ -124,33 +123,6 @@ More info can be found using the help command::
 
  pautomate releases --help
 
-
-- **dotnet**:
-
-Executes a specific dotnet core command on multiple dotnet core projects in parallel.
-
-A default list can be configured in a `config.json` file in the target directory::
-
- {
-     "dotnet_projects": ["dotnet_pro1", "dotnet_pro2"]
- }
-
-So these projects will be looked up then the passed dotnet command will be executed in all of them in parallel.
-
-A process pool will be initialized to conatain the running processes.
-
-All the allowed dotnet commands are supported e.g.::
-
- pautomate dotnet run      # run projects in config.json in parallel
- pautomate dotnet run -w   # run projects in watch mode
- pautomate dotnet test -w  # run test projects in watch mode
- pautomate dotnet clean py demo  # dotnet clean only projects that has either "py" or "demo" in its name
- pautomate dotnet build demo  # dotnet build only projects that has "demo" in its name
-
-More info can be found using the help command::
-
- pautomate dotnet --help
-
 Entry Points
 ------------
 
@@ -159,7 +131,6 @@ There is an extra entry point supported for each command, to make it faster to g
  pautomate fetch    -> fetch
  pautomate branches -> branches
  pautomate releases -> releases
- pautomate dotnet   -> dnet
 
 
 Docker
@@ -174,7 +145,6 @@ To run using docker:
 - run the desired entry point::
 
    docker run --rm -v $(pwd):/ws:rw -it pautomate --help
-   docker run --rm -v $(pwd):/ws:rw -it pautomate dotnet --help
    docker run --rm -v $(pwd):/ws:rw -it pautomate fetch --help
    docker run --rm -v $(pwd):/ws:rw -it pautomate branches --help
    docker run --rm -v $(pwd):/ws:rw -it pautomate releases --help

@@ -43,8 +43,6 @@ Features
 * Get branches info of repositories in a specific directory.
 * Reset --hard branches with a flag (-r)
 * Get the latest stable releases of multiple repositories.
-* Run multiple dotnet core commands on different projects in parallel.
-* The dotnet command type can be passed as an argument.
 * Requires:
     * git
     * python

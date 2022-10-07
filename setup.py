@@ -28,7 +28,6 @@ setup(
             'fetch=pautomate.main:fetch',
             'releases=pautomate.main:releases',
             'branches=pautomate.main:branches',
-            'dnet=pautomate.main:dotnet',
         ],
     },
     license='MIT license',

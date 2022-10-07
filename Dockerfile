@@ -20,7 +20,6 @@ RUN chown root:root /etc/apt/sources.list.d/microsoft-prod.list
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	apt-transport-https=1.8.2 \
-	dotnet-sdk-3.0=3.0.100-1 \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 

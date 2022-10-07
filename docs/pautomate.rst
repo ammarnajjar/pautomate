@@ -9,7 +9,6 @@ Subpackages
 
    pautomate.common
    pautomate.git_repos
-   pautomate.multi_dotnet
 
 Submodules
 ----------
