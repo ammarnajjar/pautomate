@@ -1,6 +1,6 @@
 {
-  "gitlab_url": "e.g.: gitlab.com",
-  "gitlab_token": "e.g: kjhasd8123hasdz123",
-	"gitlab_group_ids" : "e.g: [41, 42]",
-  "chosen_projects": ["project1", "project2"],
+    "gitlab_url": "e.g.: gitlab.com",
+    "gitlab_token": "e.g: kjhasd8123hasdz123",
+    "gitlab_group_ids": "e.g: [41, 42]",
+    "chosen_projects": ["project1", "project2"]
 }

@@ -49,7 +49,6 @@ def _add_watch_flag(parser: argparse.ArgumentParser) -> None:
     )
 
 
-
 def _add_pros_option(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         'pros',

@@ -6,7 +6,8 @@ import os
 import sys
 from multiprocessing import Manager
 from multiprocessing import Pool
-from os.path import basename, splitext
+from os.path import basename
+from os.path import splitext
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -66,7 +67,11 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]]) -> L
 
     chosen_projects = configs.get('chosen_projects')
     if isinstance(chosen_projects, List):
-        all_projects = [pro for pro in all_projects if splitext(basename(pro.get('http_url_to_repo')))[0] in chosen_projects]
+        all_projects = [
+            pro for pro in all_projects if splitext(
+                basename(pro.get('http_url_to_repo')),
+            )[0] in chosen_projects
+        ]
     return all_projects
 
 
@@ -100,4 +105,3 @@ def fetch_gitlab(working_directoy: str, args: Optional[List[str]]) -> None:
     print_green('Summery:')
     for repo_name, current_branch in summery_info.items():
         print_yellow(f'{repo_name} => {current_branch}')
-
