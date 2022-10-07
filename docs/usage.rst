@@ -80,15 +80,13 @@ The structure of `config.json` should be like::
  {
     "gitlab_url": "e.g.: gitlab.com",
     "gitlab_token": "e.g: kjhasd8123hasdz123",
-	"gitlab_group_id" : "e.g: 41",
-    "ignore_list": ["test", "example"],
+	"gitlab_group_ids" : "e.g: [41, 42]",
+    "chosen_projects": ["test", "example"],
  }
-
-Meanwhile the option `ìgnore_list` is optional, the other two are mandatory to be able to fetch/Clone the repositories from the desired gitlab instance.
 
 More about gitlab personal access tokens can be found in the official documentation_.
 
-`ignore_list` is a list of string patterns to exlclude from fetching/cloning.
+`chosen_projects` is a list of project base name to be include for fetching/cloning.
 
 
 To fetch repositories::

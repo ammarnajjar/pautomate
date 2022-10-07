@@ -6,6 +6,7 @@ import os
 import sys
 from multiprocessing import Manager
 from multiprocessing import Pool
+from os.path import basename, splitext
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -63,15 +64,9 @@ def get_repos_from_gitlab(working_directoy: str, args: Optional[List[str]]) -> L
             if any(arg in pro.get('path_with_namespace') for arg in args)
         ]
 
-    ignore_list = configs.get('ignore_list')
-    if isinstance(ignore_list, List):
-        all_projects = [
-            pro for pro in all_projects
-            if all(
-                ignored_repo not in pro.get('path_with_namespace')
-                for ignored_repo in ignore_list
-            )
-        ]
+    chosen_projects = configs.get('chosen_projects')
+    if isinstance(chosen_projects, List):
+        all_projects = [pro for pro in all_projects if splitext(basename(pro.get('http_url_to_repo')))[0] in chosen_projects]
     return all_projects
 
 
