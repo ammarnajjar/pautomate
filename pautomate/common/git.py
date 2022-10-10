@@ -128,17 +128,17 @@ def fetch_repo(
         url {str} -- repo url in gitlab
         summery_info {Dict[str, str]} -- the result of the cloning/fetching
     """
-    repo_path = join(working_directory, repo_path)
-    if isdir(repo_path):
+    abs_repo_path = join(working_directory, repo_path)
+    if isdir(abs_repo_path):
         print_green(f'Fetching {repo_path}')
-        shell_first(f'git -C {repo_path} fetch --prune')
-        remote_banches = shell(f'git -C {repo_path} ls-remote --heads')
+        shell_first(f'git -C {abs_repo_path} fetch --prune')
+        remote_banches = shell(f'git -C {abs_repo_path} ls-remote --heads')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+            f'git -C {abs_repo_path} rev-parse --abbrev-ref HEAD --',
         )
         if f'refs/heads/{current_branch}' in remote_banches:
             shell_first(
-                f'git -C {repo_path} fetch --prune -u '
+                f'git -C {abs_repo_path} fetch --prune -u '
                 f'origin {current_branch}:{current_branch}',
             )
         else:
@@ -146,12 +146,12 @@ def fetch_repo(
 
         if ('refs/heads/develop' in remote_banches and current_branch != 'develop'):  # noqa E501
             shell_first(
-                f'git -C {repo_path} fetch --prune origin develop:develop',
+                f'git -C {abs_repo_path} fetch --prune origin develop:develop',
             )
     else:
         print_green(f'Cloning {repo_path}')
-        shell_first(f'git clone {url} {repo_path}')
+        shell_first(f'git clone {url} {abs_repo_path}')
         current_branch = shell_first(
-            f'git -C {repo_path} rev-parse --abbrev-ref HEAD --',
+            f'git -C {abs_repo_path} rev-parse --abbrev-ref HEAD --',
         )
     summery_info.update({repo_path: current_branch})
